@@ -1,0 +1,54 @@
+# spring раздел включает в себя настройки, связанные с Spring Framework и его модулями.
+spring:
+  # данныйе для подключения к базе
+  datasource:
+    url: jdbc:mysql://localhost:3306/cloud_vendor?allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: root
+
+  mvc:
+    # Настройки, связанные с маршрутизацией запросов в Spring MVC
+    pathmatch:
+      # Устанавливает стратегию для сопоставления URL-путей с помощью Ant-масок. Ant-маски позволяют использовать такие шаблоны,
+      # как `/**` для сопоставления всех путей или `/users/*` для сопоставления всех путей, начинающихся с `/users/`
+      matching-strategy: ANT_PATH_MATCHER
+
+
+  # The SQL dialect makes Hibernate generate better SQL for the chosen database
+  jpa:
+    # Дополнительные свойства для настройки JPA и Hibernate
+    properties:
+      hibernate:
+        # Определяет диалект SQL, используемый Hibernate для генерации оптимального SQL-кода для конкретной базы данных (в данном случае для MySQL с использованием InnoDB).
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
+#JPA Settings
+  # `ddl_auto`: Управляет автоматическим созданием и изменением схемы базы данных при запуске приложения.
+  # `update`: Hibernate обновляет схему базы данных для соответствия изменениям в сущностях без удаления данных.
+  jpa.hibernate.ddl_auto: update
+
+# Этот раздел включает настройки управления и мониторинга приложения через Spring Boot Actuator
+management:
+  # Настройки для управления эндпоинтами мониторинга
+  endpoints:
+    # Настройки для интернет-эндпоинтов
+    web:
+      # Конфигурация эндпоинтов, которые будут доступны из веба
+      exposure:
+        # Включает в веб доступ к эндпоинтам `/health`, `/beans`, и `/metrics`
+        include: "health, beans, metrics"
+      # Устанавливает базовый путь для всех эндпоинтов управления на `"/management-dashboard"`
+      base-path: "/management-dashboard"
+  # Дополнительные настройки для отдельных эндпоинтов
+  endpoint:
+    # Настройки для эндпоинта `/health`
+    health:
+      # Всегда показывать подробности о состоянии здоровья приложения
+      show-details: always
+
+# Этот раздел включает настройки конкретного сервиса (предполагаю, что это некоторый кастомный сервис в вашем приложении)
+dummyService:
+  # Порт, на котором запускается сервис (`8081`)
+  port: 8081
+  # Адрес, на котором запускается сервис (`127.0.0.1`), что обычно указывает на локальный хост
+  address: 127.0.0.1

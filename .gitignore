@@ -1,0 +1,67 @@
+# Основные системные файлы, которые необходимо игнорировать
+.DS_Store
+Thumbs.db
+
+# Логи
+/logs
+*.log
+
+# Сгенерированные файлы
+*.class
+*.jar
+*.war
+*.ear
+
+# Каталоги с скомпилированным и временным кодом
+/bin
+/target
+/out
+
+# Каталоги Maven и Gradle
+.mvn/
+!**/src/main/**/mvn
+!**/src/test/**/mvn
+*.m2
+.gradle
+
+# Файлы и каталоги IntelliJ IDEA
+.idea/
+/*.iml
+/modules.xml
+/*.ipr
+/*.iws
+
+# Каталоги с конфигурацией среды разработки
+.vscode/
+*.swp
+
+# Личные конфигурационные файлы
+*.env
+
+# Каталоги и файлы, созданные для управления зависимостями
+**/target/
+**/build/
+**/.classpath
+**/.project
+**/.settings/
+
+# Ignoring Windows Thumbnail Database files
+Thumbs.db
+
+# Интеграционные тестовые файлы
+surefire-reports/
+
+# Ignoring Eclipse IDE files
+*.metadata
+*.plugins/
+*.tmp/
+*.bak
+*.swp
+*.patch
+*.mgk
+*.markers
+.tern-port
+.project
+.classpath
+.factorypath
+.apt_generated
