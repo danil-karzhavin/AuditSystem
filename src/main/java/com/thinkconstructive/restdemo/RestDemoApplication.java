@@ -1,5 +1,6 @@
 package com.thinkconstructive.restdemo;
 
+// Эти import-заявления импортируют необходимые классы и интерфейсы из библиотек `Spring Boot`, `Spring Actuator` и `Swagger`.
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.CorsEndpointProperties;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
@@ -25,6 +26,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+// Аннотация объединяет несколько других аннотаций, таких как `@Configuration`, `@EnableAutoConfiguration`, и
+//// `@ComponentScan`, и обозначает основной класс Spring Boot приложения
 @SpringBootApplication
 public class RestDemoApplication {
 
@@ -36,7 +39,7 @@ public class RestDemoApplication {
 	public Docket swaggerConfiguration(){
 		return new Docket(DocumentationType.SWAGGER_2)
 				.select()
-				.paths(PathSelectors.ant("/cloudvendor/*"))
+				.paths(PathSelectors.ant("/contracts/*"))
 				.apis(RequestHandlerSelectors.basePackage("com.thinkconstructive.restdemo"))
 				.build()
 				.apiInfo(apiCustomData());
