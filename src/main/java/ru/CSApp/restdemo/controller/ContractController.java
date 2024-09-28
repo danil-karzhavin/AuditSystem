@@ -50,10 +50,4 @@ public class ContractController {
         contractService.deleteContract(contractId);
         return "Contract Deleted Successfully";
     }
-
-    @PostMapping("/{contractId}")
-    public String createContractStageForContract(@PathVariable("contractId") Integer contractId, @RequestBody ContractStage contractStage){
-        contractService.createContractStageForContract(contractId, contractStage);
-        return "Create Contract Stage For Contract Successfully";
-    }
 }

@@ -19,6 +19,9 @@ public interface IContractService {
     public void createContractStageForContract(Integer id, ContractStage contractStage);
     public void removeContractStageFromContract(Contract contract, ContractStage contractStage);
 
-    public String createSpendingMaterialForContractStage(Integer contractStageId, SpendingMaterial spendingMaterial);
-    public String createSpendingSalaryForContractStage(Integer contractStageId, SpendingSalary spendingSalary);
+    public ContractStage getContractStageById(Integer contractStageId);
+    public List<ContractStage> getContractStagesByContractId(Integer contractId);
+
+    public void createSpendingMaterialForContractStage(Integer contractStageId, SpendingMaterial spendingMaterial);
+    public void createSpendingSalaryForContractStage(Integer contractStageId, SpendingSalary spendingSalary);
 }

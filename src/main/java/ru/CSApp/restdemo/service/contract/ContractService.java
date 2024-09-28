@@ -87,6 +87,7 @@ public class ContractService implements IContractService {
         contractRepository.save(contract); // ContractStage будет автоматически удален благодаря orphanRemoval = true
     }
 
+    @Override
     public ContractStage getContractStageById(Integer contractStageId){
         if(contractStageRepository.findById(contractStageId).isEmpty())
             throw new ContractNotFoundException("There is no object with such Id"); // добавить свое исключение
@@ -94,15 +95,25 @@ public class ContractService implements IContractService {
         ContractStage contractStage = contractStageRepository.findById(contractStageId).get();
         return contractStage;
     }
-    @Override
-    public String createSpendingMaterialForContractStage(Integer contractStageId, SpendingMaterial spendingMaterial) {
-        ContractStage contractStage = getContractStageById(contractStageId);
 
-                return "";
+    @Override
+    public List<ContractStage> getContractStagesByContractId(Integer contractId) {
+        // var contract = contractRepository.findById(contractId);
+        var contractStages = contractStageRepository.findByContractId(contractId);
+        return contractStages;
     }
 
     @Override
-    public String createSpendingSalaryForContractStage(Integer contractStageId, SpendingSalary spendingSalary) {
-        return "";
+    public void createSpendingMaterialForContractStage(Integer contractStageId, SpendingMaterial spendingMaterial) {
+        ContractStage contractStage = getContractStageById(contractStageId);
+        spendingMaterial.setContractStage(contractStage);
+        spendingMaterial.setContractStageId(contractStageId);
+
+        contractStage.getSpendingMaterials().add(spendingMaterial);
+        contractStageRepository.save(contractStage);
+    }
+
+    @Override
+    public void createSpendingSalaryForContractStage(Integer contractStageId, SpendingSalary spendingSalary) {
     }
 }
