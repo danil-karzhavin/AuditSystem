@@ -8,11 +8,11 @@
 		<version>2.7.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.thinkconstructive</groupId>
-	<artifactId>rest-demo</artifactId>
+	<groupId>ru.CSApp</groupId>
+	<artifactId>App</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>rest-demo</name>
-	<description>Demo project for Spring Boot</description>
+	<name>App</name>
+	<description>Task System</description>
 	<properties>
 		<java.version>18</java.version>
 		<maven.compiler.source>14</maven.compiler.source>
