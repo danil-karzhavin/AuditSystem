@@ -4,7 +4,6 @@ import com.thinkconstructive.restdemo.model.Contract;
 import com.thinkconstructive.restdemo.model.ContractStage;
 import com.thinkconstructive.restdemo.response.ResponseHandler;
 import com.thinkconstructive.restdemo.service.contract.IContractService;
-import com.thinkconstructive.restdemo.service.contract.impl.ContractService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,7 +53,7 @@ public class ContractController {
 
     @PostMapping("/{contractId}")
     public String createContractStageForContract(@PathVariable("contractId") Integer contractId, @RequestBody ContractStage contractStage){
-        contractService.addContractStageToContract(contractId, contractStage);
+        contractService.createContractStageForContract(contractId, contractStage);
         return "Create Contract Stage For Contract Successfully";
     }
 }
