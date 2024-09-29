@@ -3,7 +3,7 @@ package ru.CSApp.restdemo.service.contract;
 import ru.CSApp.restdemo.exception.ContractNotFoundException;
 import ru.CSApp.restdemo.model.*;
 import ru.CSApp.restdemo.repository.contract.ContractRepository;
-import ru.CSApp.restdemo.repository.stage.ContractStageRepository;
+import ru.CSApp.restdemo.repository.contract.stage.ContractStageRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -87,33 +87,39 @@ public class ContractService implements IContractService {
         contractRepository.save(contract); // ContractStage будет автоматически удален благодаря orphanRemoval = true
     }
 
-    @Override
-    public ContractStage getContractStageById(Integer contractStageId){
-        if(contractStageRepository.findById(contractStageId).isEmpty())
-            throw new ContractNotFoundException("There is no object with such Id"); // добавить свое исключение
-
-        ContractStage contractStage = contractStageRepository.findById(contractStageId).get();
-        return contractStage;
-    }
-
-    @Override
-    public List<ContractStage> getContractStagesByContractId(Integer contractId) {
-        // var contract = contractRepository.findById(contractId);
-        var contractStages = contractStageRepository.findByContractId(contractId);
-        return contractStages;
-    }
-
-    @Override
-    public void createSpendingMaterialForContractStage(Integer contractStageId, SpendingMaterial spendingMaterial) {
-        ContractStage contractStage = getContractStageById(contractStageId);
-        spendingMaterial.setContractStage(contractStage);
-        spendingMaterial.setContractStageId(contractStageId);
-
-        contractStage.getSpendingMaterials().add(spendingMaterial);
-        contractStageRepository.save(contractStage);
-    }
-
-    @Override
-    public void createSpendingSalaryForContractStage(Integer contractStageId, SpendingSalary spendingSalary) {
-    }
+//    @Override
+//    public ContractStage getContractStageById(Integer contractStageId){
+//        if(contractStageRepository.findById(contractStageId).isEmpty())
+//            throw new ContractNotFoundException("There is no object with such Id"); // добавить свое исключение
+//
+//        ContractStage contractStage = contractStageRepository.findById(contractStageId).get();
+//        return contractStage;
+//    }
+//
+//    @Override
+//    public List<ContractStage> getContractStagesByContractId(Integer contractId) {
+//        // var contract = contractRepository.findById(contractId);
+//        var contractStages = contractStageRepository.findByContractId(contractId);
+//        return contractStages;
+//    }
+//
+//    @Override
+//    public void createSpendingMaterialForContractStage(Integer contractStageId, SpendingMaterial spendingMaterial) {
+//        ContractStage contractStage = getContractStageById(contractStageId);
+//        spendingMaterial.setContractStage(contractStage);
+//        spendingMaterial.setContractStageId(contractStageId);
+//
+//        contractStage.getSpendingMaterials().add(spendingMaterial);
+//        contractStageRepository.save(contractStage);
+//    }
+//
+//    @Override
+//    public void createSpendingSalaryForContractStage(Integer contractStageId, SpendingSalary spendingSalary) {
+//        ContractStage contractStage = getContractStageById(contractStageId);
+//        spendingSalary.setContractStage(contractStage);
+//        spendingSalary.setContractStageId(contractStageId);
+//
+//        contractStage.getSpendingSalaries().add(spendingSalary);
+//        contractStageRepository.save(contractStage);
+//    }
 }
