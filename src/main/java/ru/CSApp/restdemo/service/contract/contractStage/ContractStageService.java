@@ -2,6 +2,7 @@ package ru.CSApp.restdemo.service.contract.contractStage;
 
 import org.springframework.stereotype.Service;
 import ru.CSApp.restdemo.exception.ContractNotFoundException;
+import ru.CSApp.restdemo.model.Contract;
 import ru.CSApp.restdemo.model.ContractStage;
 import ru.CSApp.restdemo.model.SpendingMaterial;
 import ru.CSApp.restdemo.model.SpendingSalary;
@@ -49,5 +50,25 @@ public class ContractStageService implements IContractStageService{
 
         contractStage.getSpendingSalaries().add(spendingSalary);
         contractStageRepository.save(contractStage);
+    }
+
+    @Override
+    public ContractStage updateContactStage(ContractStage contractStage) {
+        contractStageRepository.save(contractStage);
+        return contractStage;
+    }
+
+    @Override
+    public Integer deleteContractStageById(Integer contractStageId) {
+        contractStageRepository.deleteById(contractStageId);
+        return contractStageId;
+    }
+
+    @Override
+    public Integer deleteAllContractStagesByContractId(Integer contractId) {
+        for(var obj : getContractStagesByContractId(contractId)){
+            contractStageRepository.deleteById(obj.getId());
+        }
+        return 0;
     }
 }

@@ -5,6 +5,6 @@ import ru.CSApp.restdemo.model.SpendingMaterial;
 
 import java.util.List;
 
-public interface SpendingMaterialRepository extends JpaRepository<SpendingMaterial, Integer> {
+public interface ISpendingMaterialRepository extends JpaRepository<SpendingMaterial, Integer> {
     List<SpendingMaterial> findByContractStageId(Integer contractStageId);
 }

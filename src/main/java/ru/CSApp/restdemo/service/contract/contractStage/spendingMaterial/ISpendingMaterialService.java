@@ -7,4 +7,9 @@ import java.util.List;
 public interface ISpendingMaterialService {
     public SpendingMaterial getSpendingMaterialById(Integer spendingMaterialId);
     public List<SpendingMaterial> getSpendingMaterialsByContractStageId(Integer contractStageId);
+
+    public SpendingMaterial updateSpendingMaterial(SpendingMaterial spendingMaterial);
+
+    public Integer deleteSpendingMaterialById(Integer spendingMaterialId);
+    public Integer deleteAllSpendingMaterialByContractStageId(Integer contractStageId);
 }

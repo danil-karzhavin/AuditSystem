@@ -1,6 +1,7 @@
 package ru.CSApp.restdemo.controller.contract;
 
 import ru.CSApp.restdemo.model.Contract;
+import ru.CSApp.restdemo.model.ContractStage;
 import ru.CSApp.restdemo.response.ResponseHandler;
 import ru.CSApp.restdemo.service.contract.IContractService;
 import org.springframework.http.HttpStatus;

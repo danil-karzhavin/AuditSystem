@@ -12,4 +12,9 @@ public interface IContractStageService {
     public List<ContractStage> getContractStagesByContractId(Integer contractId);
     public void createSpendingMaterialForContractStage(Integer contractStageId, SpendingMaterial spendingMaterial);
     public void createSpendingSalaryForContractStage(Integer contractStageId, SpendingSalary spendingSalary);
+
+    public ContractStage updateContactStage(ContractStage contractStage);
+
+    public Integer deleteContractStageById(Integer contractStageId);
+    public Integer deleteAllContractStagesByContractId(Integer contractId);
 }

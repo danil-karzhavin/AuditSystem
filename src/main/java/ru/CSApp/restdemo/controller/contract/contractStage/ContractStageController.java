@@ -52,4 +52,22 @@ public class ContractStageController {
         contractStageService.createSpendingSalaryForContractStage(contractStageId, spendingSalary);
         return "Create Spending Salary For Contract Stage Successfully";
     }
+
+    @PutMapping("/")
+    public ResponseEntity<Object> updateContractStage(@RequestBody ContractStage contractStage){
+        return ResponseHandler.responseBuilder("",
+                HttpStatus.OK, contractStageService.updateContactStage(contractStage));
+    }
+
+    @DeleteMapping("/{contractStageId}")
+    public ResponseEntity<Object> deleteContractStageById(@PathVariable("contractStageId") Integer contractStageId){
+        return ResponseHandler.responseBuilder("",
+                HttpStatus.OK, contractStageService.deleteContractStageById(contractStageId));
+    }
+
+    @DeleteMapping("/byContract/{contractId}")
+    public ResponseEntity<Object> deleteContractStageByContractId(@PathVariable("contractId") Integer contractId){
+        return ResponseHandler.responseBuilder("",
+                HttpStatus.OK, contractStageService.deleteAllContractStagesByContractId(contractId));
+    }
 }
