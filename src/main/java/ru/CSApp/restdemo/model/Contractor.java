@@ -24,4 +24,52 @@ public class Contractor {
     @JoinColumn(name = "contractWithContractorId", referencedColumnName = "id")
     @JsonBackReference
     ContractWithContractor contractWithContractor;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public INN getInn() {
+        return inn;
+    }
+
+    public Integer getContractWithContractorId() {
+        return contractWithContractorId;
+    }
+
+    public ContractWithContractor getContractWithContractor() {
+        return contractWithContractor;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setInn(INN inn) {
+        this.inn = inn;
+    }
+
+    public void setContractWithContractorId(Integer contractWithContractorId) {
+        this.contractWithContractorId = contractWithContractorId;
+    }
+
+    public void setContractWithContractor(ContractWithContractor contractWithContractor) {
+        this.contractWithContractor = contractWithContractor;
+    }
 }

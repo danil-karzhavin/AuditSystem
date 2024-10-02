@@ -2,19 +2,18 @@ package ru.CSApp.restdemo.service.contract.contractStage;
 
 import org.springframework.stereotype.Service;
 import ru.CSApp.restdemo.exception.ContractNotFoundException;
-import ru.CSApp.restdemo.model.Contract;
 import ru.CSApp.restdemo.model.ContractStage;
 import ru.CSApp.restdemo.model.SpendingMaterial;
 import ru.CSApp.restdemo.model.SpendingSalary;
-import ru.CSApp.restdemo.repository.contract.stage.ContractStageRepository;
+import ru.CSApp.restdemo.repository.contract.stage.IContractStageRepository;
 
 import java.util.List;
 @Service
 public class ContractStageService implements IContractStageService{
-    ContractStageRepository contractStageRepository;
+    IContractStageRepository contractStageRepository;
 
-    public ContractStageService(ContractStageRepository contractStageRepository) {
-        this.contractStageRepository = contractStageRepository;
+    public ContractStageService(IContractStageRepository IContractStageRepository) {
+        this.contractStageRepository = IContractStageRepository;
     }
 
     @Override

@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ContractStageRepository extends JpaRepository<ContractStage, Integer> {
+public interface IContractStageRepository extends JpaRepository<ContractStage, Integer> {
     List<ContractStage> findByContractId(Integer contractId);
 }
 

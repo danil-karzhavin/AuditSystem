@@ -2,8 +2,8 @@ package ru.CSApp.restdemo.service.contract;
 
 import ru.CSApp.restdemo.exception.ContractNotFoundException;
 import ru.CSApp.restdemo.model.*;
-import ru.CSApp.restdemo.repository.contract.ContractRepository;
-import ru.CSApp.restdemo.repository.contract.stage.ContractStageRepository;
+import ru.CSApp.restdemo.repository.contract.IContractRepository;
+import ru.CSApp.restdemo.repository.contract.stage.IContractStageRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,12 +11,12 @@ import java.util.List;
 @Service
 public class ContractService implements IContractService {
 
-    ContractRepository contractRepository;
-    ContractStageRepository contractStageRepository;
+    IContractRepository IContractRepository;
+    IContractStageRepository IContractStageRepository;
 
-    ContractService(ContractRepository contractRepository, ContractStageRepository contractStageRepository){
-        this.contractRepository = contractRepository;
-        this.contractStageRepository = contractStageRepository;
+    ContractService(IContractRepository IContractRepository, IContractStageRepository IContractStageRepository){
+        this.IContractRepository = IContractRepository;
+        this.IContractStageRepository = IContractStageRepository;
     }
 
     @Override
@@ -30,40 +30,34 @@ public class ContractService implements IContractService {
         for (ContractWithContractor contractWithContractor : contract.getSubContracts()) {
             contractWithContractor.setContract(contract);
         }
-        return contractRepository.save(contract).toString();
+        return IContractRepository.save(contract).toString();
     }
 
     @Override
     public String updateContract(Contract contract) {
-        contractRepository.save(contract);
-        return "Success";
-    }
-
-    @Override
-    public String deleteContract(Integer id) {
-        contractRepository.deleteById(id);
+        IContractRepository.save(contract);
         return "Success";
     }
 
     @Override
     public List<Contract> getAllContracts() {
-        var contracts = contractRepository.findAll();
+        var contracts = IContractRepository.findAll();
         return contracts;
     }
 
     @Override
     public Contract getContractById(Integer id) {
-        if(contractRepository.findById(id).isEmpty()){
+        if(IContractRepository.findById(id).isEmpty()){
             throw new ContractNotFoundException("There is no object with such Id");
         }
-        Contract contract = contractRepository.findById(id).get();
+        Contract contract = IContractRepository.findById(id).get();
 
         return contract;
     }
 
     @Override
     public Contract getContractByName(String name) {
-        Contract contract = contractRepository.findByName(name);
+        Contract contract = IContractRepository.findByName(name);
         return contract;
     }
 
@@ -79,15 +73,27 @@ public class ContractService implements IContractService {
             spendingSalary.setContractStage(contractStage);
 
         contract.getStages().add(contractStage); // добавляем объект в коллекцию
-        contractRepository.save(contract); // Поскольку каскадные операции включены, ContractStage будет автоматически сохранен
+        IContractRepository.save(contract); // Поскольку каскадные операции включены, ContractStage будет автоматически сохранен
     }
 
     public void removeContractStageFromContract(Contract contract, ContractStage contractStage) {
         contract.getStages().remove(contractStage);
-        contractRepository.save(contract); // ContractStage будет автоматически удален благодаря orphanRemoval = true
+        IContractRepository.save(contract); // ContractStage будет автоматически удален благодаря orphanRemoval = true
     }
 
-//    @Override
+    @Override
+    public Integer deleteContractById(Integer contractId) {
+        IContractRepository.deleteById(contractId);
+        return contractId;
+    }
+
+    @Override
+    public Integer deleteAllContracts() {
+        IContractRepository.deleteAll();
+        return 0;
+    }
+
+    //    @Override
 //    public ContractStage getContractStageById(Integer contractStageId){
 //        if(contractStageRepository.findById(contractStageId).isEmpty())
 //            throw new ContractNotFoundException("There is no object with such Id"); // добавить свое исключение

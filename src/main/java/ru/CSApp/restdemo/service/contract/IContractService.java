@@ -10,7 +10,6 @@ import java.util.List;
 public interface IContractService {
     public String createContract(Contract contract);
     public String updateContract(Contract contract);
-    public String deleteContract(Integer id);
 
     public List<Contract> getAllContracts();
     public Contract getContractById(Integer id);
@@ -19,9 +18,6 @@ public interface IContractService {
     public void createContractStageForContract(Integer id, ContractStage contractStage);
     public void removeContractStageFromContract(Contract contract, ContractStage contractStage);
 
-//    public ContractStage getContractStageById(Integer contractStageId);
-//    public List<ContractStage> getContractStagesByContractId(Integer contractId);
-//
-//    public void createSpendingMaterialForContractStage(Integer contractStageId, SpendingMaterial spendingMaterial);
-//    public void createSpendingSalaryForContractStage(Integer contractStageId, SpendingSalary spendingSalary);
+    public Integer deleteContractById(Integer contractId);
+    public Integer deleteAllContracts();
 }

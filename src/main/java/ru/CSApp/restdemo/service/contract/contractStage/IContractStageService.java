@@ -10,6 +10,7 @@ import java.util.List;
 public interface IContractStageService {
     public ContractStage getContractStageById(Integer contractStageId);
     public List<ContractStage> getContractStagesByContractId(Integer contractId);
+
     public void createSpendingMaterialForContractStage(Integer contractStageId, SpendingMaterial spendingMaterial);
     public void createSpendingSalaryForContractStage(Integer contractStageId, SpendingSalary spendingSalary);
 

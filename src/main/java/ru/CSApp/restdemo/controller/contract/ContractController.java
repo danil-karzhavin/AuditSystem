@@ -39,15 +39,21 @@ public class ContractController {
     }
 
     @PutMapping("/")
-    public String updateContractDetails(@RequestBody Contract contract)
+    public ResponseEntity<Object> updateContractDetails(@RequestBody Contract contract)
     {
-        contractService.updateContract(contract);
-        return "Contract Updated Successfully";
+        return ResponseHandler.responseBuilder("",
+                HttpStatus.OK, contractService.updateContract(contract));
     }
 
     @DeleteMapping("/{contractId}")
-    public String deleteContractDetails(@PathVariable("contractId") Integer contractId){
-        contractService.deleteContract(contractId);
-        return "Contract Deleted Successfully";
+    public ResponseEntity<Object> deleteContractDetails(@PathVariable("contractId") Integer contractId){
+        return ResponseHandler.responseBuilder("",
+                HttpStatus.OK, contractService.deleteContractById(contractId));
+    }
+
+    @DeleteMapping("/")
+    public ResponseEntity<Object> deleteAllContracts(){
+        return ResponseHandler.responseBuilder("",
+                HttpStatus.OK, contractService.deleteAllContracts());
     }
 }
