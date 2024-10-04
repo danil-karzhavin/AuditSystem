@@ -23,7 +23,6 @@ public class ContractService implements IContractService {
     public String createContract(Contract contract) {
         // contractRepository.save(contract);
 
-        // скорее всего эти коллекции будут всегда пусты, но на всякий случай
         for (ContractStage stage : contract.getStages()) {
             stage.setContract(contract);
         }
