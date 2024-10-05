@@ -1,38 +1,56 @@
 package ru.CSApp.restdemo.service.contract.contractStage.spendingSalary;
 
 import org.springframework.stereotype.Service;
-import ru.CSApp.restdemo.exception.ContractNotFoundException;
+import ru.CSApp.restdemo.exception.contract.ContractNotFoundException;
+import ru.CSApp.restdemo.exception.contract.contractStage.spendingSalary.SpendingSalaryNotFoundException;
+import ru.CSApp.restdemo.model.ContractStage;
 import ru.CSApp.restdemo.model.SpendingSalary;
+import ru.CSApp.restdemo.repository.contract.stage.IContractStageRepository;
 import ru.CSApp.restdemo.repository.contract.stage.spendingSalary.ISpendingSalaryRepository;
 
 import java.util.List;
 
 @Service
 public class SpendingSalaryService implements ISpendingSalaryService{
-    ISpendingSalaryRepository ISpendingSalaryRepository;
+    ISpendingSalaryRepository spendingSalaryRepository;
+    IContractStageRepository contractStageRepository;
 
-    public SpendingSalaryService(ISpendingSalaryRepository spendingSalaryRepository) {
-        this.ISpendingSalaryRepository = spendingSalaryRepository;
+    public SpendingSalaryService(ru.CSApp.restdemo.repository.contract.stage.spendingSalary.ISpendingSalaryRepository spendingSalaryRepository, IContractStageRepository contractStageRepository) {
+        this.spendingSalaryRepository = spendingSalaryRepository;
+        this.contractStageRepository = contractStageRepository;
     }
 
     @Override
     public SpendingSalary getSpendingSalaryById(Integer spendingSalaryId) {
-        if (ISpendingSalaryRepository.findById(spendingSalaryId).isEmpty())
-            throw new ContractNotFoundException("There is no object with such Id"); // добавить свое исключение
-
-        SpendingSalary spendingSalary = ISpendingSalaryRepository.findById(spendingSalaryId).get();
-        return spendingSalary;
+        try{
+            if (spendingSalaryRepository.findById(spendingSalaryId).isEmpty())
+              throw new SpendingSalaryNotFoundException("There is no object with such Id");
+            return spendingSalaryRepository.findById(spendingSalaryId).get();
+        }
+        catch (SpendingSalaryNotFoundException ex){
+            return null;
+        }
     }
 
     @Override
     public List<SpendingSalary> getSpendingSalariesByContractStageId(Integer contractStageId) {
-        var spendingSalaries = ISpendingSalaryRepository.findByContractStageId(contractStageId);
+        var spendingSalaries = spendingSalaryRepository.findByContractStageId(contractStageId);
         return spendingSalaries;
     }
 
     @Override
+    public void createSpendingSalaryForContractStage(Integer contractStageId, SpendingSalary spendingSalary) {
+        ContractStage contractStage = contractStageRepository.findById(contractStageId).get();
+        spendingSalary.setContractStage(contractStage);
+        spendingSalary.setContractStageId(contractStageId);
+
+        contractStage.getSpendingSalaries().add(spendingSalary);
+        contractStageRepository.save(contractStage);
+    }
+
+    @Override
     public SpendingSalary updateSpendingSalary(SpendingSalary spendingSalary) {
-        ISpendingSalaryRepository.save(spendingSalary);
+        spendingSalaryRepository.save(spendingSalary);
         return spendingSalary;
     }
 
@@ -40,14 +58,14 @@ public class SpendingSalaryService implements ISpendingSalaryService{
     public Integer deleteSpendingSalaryById(Integer spendingSalaryId) {
         SpendingSalary spendingSalary = getSpendingSalaryById(spendingSalaryId);
 
-        ISpendingSalaryRepository.deleteById(spendingSalaryId);
+        spendingSalaryRepository.deleteById(spendingSalaryId);
         return 0;
     }
 
     @Override
     public Integer deleteAllSpendingSalariesByContractStageId(Integer contractStageId) {
         for(var obj : getSpendingSalariesByContractStageId(contractStageId)){
-            ISpendingSalaryRepository.deleteById(obj.getId());
+            spendingSalaryRepository.deleteById(obj.getId());
         }
         return 0;
     }

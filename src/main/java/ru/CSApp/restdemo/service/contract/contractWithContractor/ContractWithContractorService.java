@@ -1,6 +1,8 @@
 package ru.CSApp.restdemo.service.contract.contractWithContractor;
 
 import org.springframework.stereotype.Service;
+import ru.CSApp.restdemo.exception.contract.ContractNotFoundException;
+import ru.CSApp.restdemo.exception.contract.contractWithContractor.ContractWithContractorNotFoundException;
 import ru.CSApp.restdemo.model.Contract;
 import ru.CSApp.restdemo.model.ContractWithContractor;
 import ru.CSApp.restdemo.repository.contract.IContractRepository;
@@ -26,8 +28,14 @@ public class ContractWithContractorService implements IContractWithContractorSer
 
     @Override
     public ContractWithContractor getContractWithContractorById(Integer contractWitContractorId) {
-        ContractWithContractor contractWithContractor = contractWithContractorRepository.findById(contractWitContractorId).get();
-        return contractWithContractor;
+        try{
+            if(contractWithContractorRepository.findById(contractWitContractorId).isEmpty())
+                throw new ContractWithContractorNotFoundException("There is no object with such Id");
+            return contractWithContractorRepository.findById(contractWitContractorId).get();
+        }
+        catch (ContractWithContractorNotFoundException ex){
+            return null;
+        }
     }
 
     @Override

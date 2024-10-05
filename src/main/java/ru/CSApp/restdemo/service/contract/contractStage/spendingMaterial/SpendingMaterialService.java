@@ -1,38 +1,53 @@
 package ru.CSApp.restdemo.service.contract.contractStage.spendingMaterial;
 
 import org.springframework.stereotype.Service;
-import ru.CSApp.restdemo.exception.ContractNotFoundException;
+import ru.CSApp.restdemo.exception.contract.contractStage.spendingMaterial.SpendingMaterialNotFoundException;
+import ru.CSApp.restdemo.model.ContractStage;
 import ru.CSApp.restdemo.model.SpendingMaterial;
+import ru.CSApp.restdemo.repository.contract.stage.IContractStageRepository;
 import ru.CSApp.restdemo.repository.contract.stage.spendingMaterial.ISpendingMaterialRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 @Service
 public class SpendingMaterialService implements ISpendingMaterialService {
-    ISpendingMaterialRepository ISpendingMaterialRepository;
+    ISpendingMaterialRepository spendingMaterialRepository;
+    IContractStageRepository contractStageRepository;
 
-    public SpendingMaterialService(ISpendingMaterialRepository spendingMaterialRepository) {
-        this.ISpendingMaterialRepository = spendingMaterialRepository;
+    public SpendingMaterialService(ISpendingMaterialRepository spendingMaterialRepository, IContractStageRepository contractStageRepository) {
+        this.spendingMaterialRepository = spendingMaterialRepository;
+        this.contractStageRepository = contractStageRepository;
     }
 
     @Override
     public SpendingMaterial getSpendingMaterialById(Integer spendingMaterialId) {
-        if (ISpendingMaterialRepository.findById(spendingMaterialId).isEmpty())
-            throw new ContractNotFoundException("There is no object with such Id"); // добавить свое исключение
-
-        SpendingMaterial spendingMaterial = ISpendingMaterialRepository.findById(spendingMaterialId).get();
-        return spendingMaterial;
+        try {
+            if (spendingMaterialRepository.findById(spendingMaterialId).isEmpty())
+                throw new SpendingMaterialNotFoundException("There is no object with such Id");
+            return spendingMaterialRepository.findById(spendingMaterialId).get();
+        } catch (SpendingMaterialNotFoundException ex) {
+            return null;
+        }
     }
 
     @Override
     public List<SpendingMaterial> getSpendingMaterialsByContractStageId(Integer contractStageId) {
-        var spendingMaterials = ISpendingMaterialRepository.findByContractStageId(contractStageId);
+        var spendingMaterials = spendingMaterialRepository.findByContractStageId(contractStageId);
         return spendingMaterials;
     }
 
     @Override
+    public void createSpendingMaterialForContractStage(Integer contractStageId, SpendingMaterial spendingMaterial) {
+        ContractStage contractStage = contractStageRepository.findById(contractStageId).get();
+        spendingMaterial.setContractStage(contractStage);
+        spendingMaterial.setContractStageId(contractStageId);
+
+        contractStage.getSpendingMaterials().add(spendingMaterial);
+        contractStageRepository.save(contractStage);
+    }
+
+    @Override
     public SpendingMaterial updateSpendingMaterial(SpendingMaterial spendingMaterial) {
-        ISpendingMaterialRepository.save(spendingMaterial);
+        spendingMaterialRepository.save(spendingMaterial);
         return spendingMaterial;
     }
 
@@ -40,14 +55,14 @@ public class SpendingMaterialService implements ISpendingMaterialService {
     public Integer deleteSpendingMaterialById(Integer spendingMaterialId) {
         SpendingMaterial spendingMaterial = getSpendingMaterialById(spendingMaterialId);
 
-        ISpendingMaterialRepository.deleteById(spendingMaterialId);
+        spendingMaterialRepository.deleteById(spendingMaterialId);
         return spendingMaterialId;
     }
 
     @Override
     public Integer deleteAllSpendingMaterialByContractStageId(Integer contractStageId) {
         for(var obj : getSpendingMaterialsByContractStageId(contractStageId)){
-            ISpendingMaterialRepository.deleteById(obj.getId());
+            spendingMaterialRepository.deleteById(obj.getId());
         }
         return 0;
     }

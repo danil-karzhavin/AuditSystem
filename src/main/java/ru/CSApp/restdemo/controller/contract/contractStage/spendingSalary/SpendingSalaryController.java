@@ -5,15 +5,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.CSApp.restdemo.model.SpendingSalary;
 import ru.CSApp.restdemo.response.ResponseHandler;
+import ru.CSApp.restdemo.service.contract.contractStage.IContractStageService;
 import ru.CSApp.restdemo.service.contract.contractStage.spendingSalary.ISpendingSalaryService;
 
 @RestController
 @RequestMapping("/spendingSalaries")
 public class SpendingSalaryController {
     ISpendingSalaryService spendingSalaryService;
+    IContractStageService contractStageService;
 
-    public SpendingSalaryController(ISpendingSalaryService spendingSalaryService) {
+    public SpendingSalaryController(ISpendingSalaryService spendingSalaryService, IContractStageService contractStageService) {
         this.spendingSalaryService = spendingSalaryService;
+        this.contractStageService  = contractStageService;
     }
 
     @GetMapping("/{spendingSalaryId}")
@@ -26,6 +29,12 @@ public class SpendingSalaryController {
     public ResponseEntity<Object> getSpendingSalariesByContractStageId(@PathVariable("contractStageId") Integer contractStageId){
         return ResponseHandler.responseBuilder("Requested Spending Salary Details are given here",
                 HttpStatus.OK, spendingSalaryService.getSpendingSalariesByContractStageId(contractStageId));
+    }
+
+    @PostMapping("/newSpendingSalary/{contractStageId}")
+    public String createSpendingSalaryForContractStage(@PathVariable("contractStageId") Integer contractStageId, @RequestBody SpendingSalary spendingSalary){
+        spendingSalaryService.createSpendingSalaryForContractStage(contractStageId, spendingSalary);
+        return "Create Spending Salary For Contract Stage Successfully";
     }
 
     @PutMapping("/")

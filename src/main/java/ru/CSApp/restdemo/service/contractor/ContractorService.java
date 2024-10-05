@@ -1,9 +1,9 @@
 package ru.CSApp.restdemo.service.contractor;
 
 import org.springframework.stereotype.Service;
-import ru.CSApp.restdemo.model.ContractWithContractor;
+import ru.CSApp.restdemo.exception.contractor.ContractorNotFoundException;
 import ru.CSApp.restdemo.model.Contractor;
-import ru.CSApp.restdemo.model.INN;
+import ru.CSApp.restdemo.model.Inn;
 import ru.CSApp.restdemo.repository.contractor.IContractorRepository;
 import ru.CSApp.restdemo.repository.contractor.inn.IInnRepository;
 
@@ -27,15 +27,20 @@ public class ContractorService implements IContractorService {
 
     @Override
     public Contractor getContractorById(Integer contractorId) {
-        Contractor contractor = contractorRepository.findById(contractorId).get();
-        return contractor;
+        try{
+            if(contractorRepository.findById(contractorId).isEmpty())
+                throw new ContractorNotFoundException("There is no object with such Id");
+            return contractorRepository.findById(contractorId).get();
+        }
+        catch (ContractorNotFoundException ex){
+            return null;
+        }
     }
 
     @Override
     public Contractor createContractor(Contractor contractor) {
-        INN inn = contractor.getInn();
-        innRepository.save(inn);
-        //inn.setContractorId(contractor.getId());
+        innRepository.save(contractor.getInn()); // id в обеих моделях null, еще не созданы в репозитории
+        // нужно сохранять каждую модель в своем репозитории, связи фреймворк простроит сам на основе аннотоций и класса contractor
 
         contractorRepository.save(contractor);
         return contractor;

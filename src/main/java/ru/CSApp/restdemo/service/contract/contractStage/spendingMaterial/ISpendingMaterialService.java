@@ -8,6 +8,7 @@ public interface ISpendingMaterialService {
     public SpendingMaterial getSpendingMaterialById(Integer spendingMaterialId);
     public List<SpendingMaterial> getSpendingMaterialsByContractStageId(Integer contractStageId);
 
+    public void createSpendingMaterialForContractStage(Integer contractStageId, SpendingMaterial spendingMaterial);
     public SpendingMaterial updateSpendingMaterial(SpendingMaterial spendingMaterial);
 
     public Integer deleteSpendingMaterialById(Integer spendingMaterialId);

@@ -1,28 +1,35 @@
 package ru.CSApp.restdemo.service.contract.contractStage;
 
 import org.springframework.stereotype.Service;
-import ru.CSApp.restdemo.exception.ContractNotFoundException;
+import ru.CSApp.restdemo.exception.contract.ContractNotFoundException;
+import ru.CSApp.restdemo.exception.contract.contractStage.ContractStageNotFoundException;
+import ru.CSApp.restdemo.model.Contract;
 import ru.CSApp.restdemo.model.ContractStage;
 import ru.CSApp.restdemo.model.SpendingMaterial;
 import ru.CSApp.restdemo.model.SpendingSalary;
+import ru.CSApp.restdemo.repository.contract.IContractRepository;
 import ru.CSApp.restdemo.repository.contract.stage.IContractStageRepository;
 
 import java.util.List;
 @Service
 public class ContractStageService implements IContractStageService{
     IContractStageRepository contractStageRepository;
+    IContractRepository contractRepository;
 
-    public ContractStageService(IContractStageRepository IContractStageRepository) {
+    public ContractStageService(IContractStageRepository IContractStageRepository, IContractRepository contractRepository) {
         this.contractStageRepository = IContractStageRepository;
+        this.contractRepository = contractRepository;
     }
 
     @Override
     public ContractStage getContractStageById(Integer contractStageId){
-        if(contractStageRepository.findById(contractStageId).isEmpty())
-            throw new ContractNotFoundException("There is no object with such Id"); // добавить свое исключение
-
-        ContractStage contractStage = contractStageRepository.findById(contractStageId).get();
-        return contractStage;
+        try{
+            if(contractStageRepository.findById(contractStageId).isEmpty())
+                throw new ContractStageNotFoundException("There is no object with such Id");
+            return contractStageRepository.findById(contractStageId).get();
+        }
+        catch (ContractStageNotFoundException ex)
+            return null;
     }
 
     @Override
@@ -31,24 +38,26 @@ public class ContractStageService implements IContractStageService{
         return contractStages;
     }
 
-    @Override
-    public void createSpendingMaterialForContractStage(Integer contractStageId, SpendingMaterial spendingMaterial) {
-        ContractStage contractStage = getContractStageById(contractStageId);
-        spendingMaterial.setContractStage(contractStage);
-        spendingMaterial.setContractStageId(contractStageId);
+    public void createContractStageForContract(Integer contractId, ContractStage contractStage){
+        Contract contract = contractRepository.findById(contractId).get();
+        contractStage.setContract(contract); // устанавливаем связи
+        contractStage.setContractId(contractId);
 
-        contractStage.getSpendingMaterials().add(spendingMaterial);
-        contractStageRepository.save(contractStage);
+        for (SpendingMaterial spendingMaterial : contractStage.getSpendingMaterials())
+            spendingMaterial.setContractStage(contractStage);
+
+        for (SpendingSalary spendingSalary : contractStage.getSpendingSalaries())
+            spendingSalary.setContractStage(contractStage);
+
+        contract.getStages().add(contractStage); // добавляем объект в коллекцию
+        contractRepository.save(contract); // Поскольку каскадные операции включены, ContractStage будет автоматически сохранен
     }
 
     @Override
-    public void createSpendingSalaryForContractStage(Integer contractStageId, SpendingSalary spendingSalary) {
-        ContractStage contractStage = getContractStageById(contractStageId);
-        spendingSalary.setContractStage(contractStage);
-        spendingSalary.setContractStageId(contractStageId);
-
-        contractStage.getSpendingSalaries().add(spendingSalary);
-        contractStageRepository.save(contractStage);
+    public void deleteContractStageFromContract(Integer contractId, ContractStage contractStage) {
+        Contract contract = contractRepository.findById(contractId).get();
+        contract.getStages().remove(contractStage);
+        contractRepository.save(contract); // ContractStage будет автоматически удален благодаря orphanRemoval = true
     }
 
     @Override

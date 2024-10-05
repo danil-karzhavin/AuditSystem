@@ -28,6 +28,12 @@ public class SpendingMaterialController {
                 HttpStatus.OK, spendingMaterialService.getSpendingMaterialsByContractStageId(contractStageId));
     }
 
+    @PostMapping("/newSpendingMaterial/{contractStageId}")
+    public String createSpendingMaterialForContractStage(@PathVariable("contractStageId") Integer contractStageId, @RequestBody SpendingMaterial spendingMaterial){
+        spendingMaterialService.createSpendingMaterialForContractStage(contractStageId, spendingMaterial);
+        return "Create Spending Material For Contract Stage Successfully";
+    }
+
     @PutMapping("/")
     public ResponseEntity<Object> updateSpendingMaterial(@RequestBody SpendingMaterial spendingMaterial){
         return ResponseHandler.responseBuilder("",

@@ -16,7 +16,7 @@ public class Contractor {
 
     @OneToOne(mappedBy = "contractor")
     @JsonManagedReference
-    INN inn;
+    Inn inn;
 
     @Column(name = "contractWithContractorId", insertable = false, updatable = false)
     Integer contractWithContractorId;
@@ -37,7 +37,7 @@ public class Contractor {
         return address;
     }
 
-    public INN getInn() {
+    public Inn getInn() {
         return inn;
     }
 
@@ -61,7 +61,7 @@ public class Contractor {
         this.address = address;
     }
 
-    public void setInn(INN inn) {
+    public void setInn(Inn inn) {
         this.inn = inn;
     }
 

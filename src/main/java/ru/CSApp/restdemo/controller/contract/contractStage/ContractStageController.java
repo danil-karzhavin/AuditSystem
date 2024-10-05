@@ -37,20 +37,8 @@ public class ContractStageController {
 
     @PostMapping("/newContractStage/{contractId}")
     public String createContractStageForContract(@PathVariable("contractId") Integer contractId, @RequestBody ContractStage contractStage){
-        contractService.createContractStageForContract(contractId, contractStage);
+        contractStageService.createContractStageForContract(contractId, contractStage);
         return "Create Contract Stage For Contract Successfully";
-    }
-
-    @PostMapping("/newSpendingMaterial/{contractStageId}")
-    public String createSpendingMaterialForContractStage(@PathVariable("contractStageId") Integer contractStageId, @RequestBody SpendingMaterial spendingMaterial){
-        contractStageService.createSpendingMaterialForContractStage(contractStageId, spendingMaterial);
-        return "Create Spending Material For Contract Stage Successfully";
-    }
-
-    @PostMapping("/newSpendingSalary/{contractStageId}")
-    public String createSpendingSalaryForContractStage(@PathVariable("contractStageId") Integer contractStageId, @RequestBody SpendingSalary spendingSalary){
-        contractStageService.createSpendingSalaryForContractStage(contractStageId, spendingSalary);
-        return "Create Spending Salary For Contract Stage Successfully";
     }
 
     @PutMapping("/")

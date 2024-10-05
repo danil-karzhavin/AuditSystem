@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "INNs")
-public class INN {
+public class Inn {
     @Id
     String inn;
 
@@ -17,9 +17,9 @@ public class INN {
     @JsonBackReference
     Contractor contractor;
 
-    public INN(){}
+    public Inn(){}
 
-    public INN(String inn, Integer contractorId, Contractor contractor) {
+    public Inn(String inn, Integer contractorId, Contractor contractor) {
         this.inn = inn;
         this.contractorId = contractorId;
         this.contractor = contractor;
