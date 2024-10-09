@@ -3,7 +3,7 @@ package ru.CSApp.restdemo.controller;
 import ru.CSApp.restdemo.model.User;
 import ru.CSApp.restdemo.response.ResponseHandler;
 import ru.CSApp.restdemo.service.user.IUserService;
-import ru.CSApp.restdemo.service.user.impl.UserService;
+import ru.CSApp.restdemo.service.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,22 +26,27 @@ public class UserController {
     }
 
     @GetMapping("/")
-    public List<User> getAllUsers(){
-        return userService.getAllUsers();
+    public ResponseEntity<Object> getAllUsers(){
+        return ResponseHandler.responseBuilder("",
+                HttpStatus.OK, userService.getAllUsers());
     }
 
     @PostMapping("/")
-    public String createUserDetails(@RequestBody User user)
+    public ResponseEntity<Object> createUserDetails(@RequestBody User user)
     {
-        userService.createUser(user);
-        return "User Created Successfully";
+        return ResponseHandler.responseBuilder("",
+                HttpStatus.OK, userService.createUser(user));
     }
 
     @PutMapping("/")
-    public String updateUser(@RequestBody User user){
-        userService.updateUser(user);
-        return "User Updated Successfully";
+    public ResponseEntity<Object> updateUser(@RequestBody User user){
+        return ResponseHandler.responseBuilder("",
+                HttpStatus.OK, userService.updateUser(user));
     }
 
-
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Object> deleteUserById(@PathVariable("userId") Integer userId){
+        return ResponseHandler.responseBuilder("",
+                HttpStatus.OK, userService.deleteUserById(userId));
+    }
 }

@@ -54,7 +54,14 @@ public class ContractorService implements IContractorService {
 
     @Override
     public Integer deleteContractorById(Integer contractorId) {
-        contractorRepository.deleteById(contractorId);
-        return contractorId;
+        try{
+            if(contractorRepository.findById(contractorId).isEmpty())
+                throw new ContractorNotFoundException("There is no object with such Id");
+            contractorRepository.deleteById(contractorId);
+            return contractorId;
+        }
+        catch(ContractorNotFoundException ex){
+            return null;
+        }
     }
 }

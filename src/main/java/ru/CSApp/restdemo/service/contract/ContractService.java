@@ -63,8 +63,15 @@ public class ContractService implements IContractService {
 
     @Override
     public Integer deleteContractById(Integer contractId) {
-        contractRepository.deleteById(contractId);
-        return contractId;
+        try{
+            if(contractRepository.findById(contractId).isEmpty())
+                throw new ContractNotFoundException("There is no object with such Id");
+            contractRepository.deleteById(contractId);
+            return contractId;
+        }
+        catch(ContractNotFoundException ex){
+            return null;
+        }
     }
 
     @Override

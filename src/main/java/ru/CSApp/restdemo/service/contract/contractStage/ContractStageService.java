@@ -3,6 +3,7 @@ package ru.CSApp.restdemo.service.contract.contractStage;
 import org.springframework.stereotype.Service;
 import ru.CSApp.restdemo.exception.contract.ContractNotFoundException;
 import ru.CSApp.restdemo.exception.contract.contractStage.ContractStageNotFoundException;
+import ru.CSApp.restdemo.exception.contract.contractStage.spendingSalary.SpendingSalaryNotFoundException;
 import ru.CSApp.restdemo.model.Contract;
 import ru.CSApp.restdemo.model.ContractStage;
 import ru.CSApp.restdemo.model.SpendingMaterial;
@@ -28,8 +29,9 @@ public class ContractStageService implements IContractStageService{
                 throw new ContractStageNotFoundException("There is no object with such Id");
             return contractStageRepository.findById(contractStageId).get();
         }
-        catch (ContractStageNotFoundException ex)
+        catch (ContractStageNotFoundException ex){
             return null;
+        }
     }
 
     @Override
@@ -38,17 +40,23 @@ public class ContractStageService implements IContractStageService{
         return contractStages;
     }
 
+    @Override
     public void createContractStageForContract(Integer contractId, ContractStage contractStage){
         Contract contract = contractRepository.findById(contractId).get();
         contractStage.setContract(contract); // устанавливаем связи
         contractStage.setContractId(contractId);
 
-        for (SpendingMaterial spendingMaterial : contractStage.getSpendingMaterials())
+        for (SpendingMaterial spendingMaterial : contractStage.getSpendingMaterials()){
             spendingMaterial.setContractStage(contractStage);
+            //spendingMaterial.setContractStageId(contractStage.getId());
+        }
 
-        for (SpendingSalary spendingSalary : contractStage.getSpendingSalaries())
+        for (SpendingSalary spendingSalary : contractStage.getSpendingSalaries()){
             spendingSalary.setContractStage(contractStage);
+            //spendingSalary.setContractStageId(contractStage.getId());
+        }
 
+        contractStageRepository.save(contractStage);
         contract.getStages().add(contractStage); // добавляем объект в коллекцию
         contractRepository.save(contract); // Поскольку каскадные операции включены, ContractStage будет автоматически сохранен
     }
@@ -68,8 +76,15 @@ public class ContractStageService implements IContractStageService{
 
     @Override
     public Integer deleteContractStageById(Integer contractStageId) {
-        contractStageRepository.deleteById(contractStageId);
-        return contractStageId;
+        try{
+            if(contractStageRepository.findById(contractStageId).isEmpty())
+                throw new ContractStageNotFoundException("There is no object with such Id");
+            contractStageRepository.deleteById(contractStageId);
+            return contractStageId;
+        }
+        catch(ContractStageNotFoundException ex){
+            return null;
+        }
     }
 
     @Override

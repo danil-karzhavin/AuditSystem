@@ -2,6 +2,7 @@ package ru.CSApp.restdemo.service.contract.contractStage.spendingSalary;
 
 import org.springframework.stereotype.Service;
 import ru.CSApp.restdemo.exception.contract.ContractNotFoundException;
+import ru.CSApp.restdemo.exception.contract.contractStage.spendingMaterial.SpendingMaterialNotFoundException;
 import ru.CSApp.restdemo.exception.contract.contractStage.spendingSalary.SpendingSalaryNotFoundException;
 import ru.CSApp.restdemo.model.ContractStage;
 import ru.CSApp.restdemo.model.SpendingSalary;
@@ -56,10 +57,15 @@ public class SpendingSalaryService implements ISpendingSalaryService{
 
     @Override
     public Integer deleteSpendingSalaryById(Integer spendingSalaryId) {
-        SpendingSalary spendingSalary = getSpendingSalaryById(spendingSalaryId);
-
-        spendingSalaryRepository.deleteById(spendingSalaryId);
-        return 0;
+        try{
+            if(spendingSalaryRepository.findById(spendingSalaryId).isEmpty())
+                throw new SpendingSalaryNotFoundException("There is no object with such Id");
+            spendingSalaryRepository.deleteById(spendingSalaryId);
+            return spendingSalaryId;
+        }
+        catch(SpendingSalaryNotFoundException ex){
+            return null;
+        }
     }
 
     @Override

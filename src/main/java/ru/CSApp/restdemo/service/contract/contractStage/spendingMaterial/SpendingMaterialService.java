@@ -53,10 +53,15 @@ public class SpendingMaterialService implements ISpendingMaterialService {
 
     @Override
     public Integer deleteSpendingMaterialById(Integer spendingMaterialId) {
-        SpendingMaterial spendingMaterial = getSpendingMaterialById(spendingMaterialId);
-
-        spendingMaterialRepository.deleteById(spendingMaterialId);
-        return spendingMaterialId;
+        try{
+            if(spendingMaterialRepository.findById(spendingMaterialId).isEmpty())
+                throw new SpendingMaterialNotFoundException("There is no object with such Id");
+            spendingMaterialRepository.deleteById(spendingMaterialId);
+            return spendingMaterialId;
+        }
+        catch(SpendingMaterialNotFoundException ex){
+            return null;
+        }
     }
 
     @Override

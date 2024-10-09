@@ -2,6 +2,7 @@ package ru.CSApp.restdemo.service.contract.contractWithContractor;
 
 import org.springframework.stereotype.Service;
 import ru.CSApp.restdemo.exception.contract.ContractNotFoundException;
+import ru.CSApp.restdemo.exception.contract.contractStage.ContractStageNotFoundException;
 import ru.CSApp.restdemo.exception.contract.contractWithContractor.ContractWithContractorNotFoundException;
 import ru.CSApp.restdemo.model.Contract;
 import ru.CSApp.restdemo.model.ContractWithContractor;
@@ -52,8 +53,15 @@ public class ContractWithContractorService implements IContractWithContractorSer
 
     @Override
     public Integer deleteContractWithContractorById(Integer contractWithContractorId) {
-        contractWithContractorRepository.deleteById(contractWithContractorId);
-        return 0;
+        try{
+            if(contractWithContractorRepository.findById(contractWithContractorId).isEmpty())
+                throw new ContractWithContractorNotFoundException("There is no object with such Id");
+            contractWithContractorRepository.deleteById(contractWithContractorId);
+            return contractWithContractorId;
+        }
+        catch(ContractWithContractorNotFoundException ex){
+            return null;
+        }
     }
 
     @Override
