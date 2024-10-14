@@ -11,9 +11,11 @@ import org.springframework.boot.actuate.endpoint.web.annotation.ControllerEndpoi
 import org.springframework.boot.actuate.endpoint.web.annotation.ServletEndpointsSupplier;
 import org.springframework.boot.actuate.endpoint.web.servlet.WebMvcEndpointHandlerMapping;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
+import org.springframework.util.unit.DataSize;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -21,6 +23,7 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+import javax.servlet.MultipartConfigElement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -43,6 +46,14 @@ public class CSApp {
 				.apis(RequestHandlerSelectors.basePackage("ru.thinkconstructive.restdemo"))
 				.build()
 				.apiInfo(apiCustomData());
+	}
+
+	@Bean
+	MultipartConfigElement multipartConfigElement() {
+		MultipartConfigFactory factory = new MultipartConfigFactory();
+		factory.setMaxFileSize(DataSize.parse("128KB"));
+		factory.setMaxRequestSize(DataSize.parse("128KB"));
+		return factory.createMultipartConfig();
 	}
 
 	private ApiInfo apiCustomData(){

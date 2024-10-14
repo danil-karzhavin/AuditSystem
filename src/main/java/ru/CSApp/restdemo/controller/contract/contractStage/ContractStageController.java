@@ -13,6 +13,7 @@ import ru.CSApp.restdemo.service.contract.IContractService;
 import ru.CSApp.restdemo.service.contract.contractStage.IContractStageService;
 import ru.CSApp.restdemo.service.contract.contractStage.exportExcel.ExportExcelService;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 //import ru.CSApp.restdemo.service.contract.contractStage.IContractStageService;
 
@@ -67,20 +68,22 @@ public class ContractStageController {
     }
 
     @GetMapping("/getExcelFile/{contractId}")
-    public ResponseEntity<byte[]> getExcelFileByContract(@PathVariable("contractId") Integer contractId){
+    public void getExcelFileByContract(@PathVariable("contractId") Integer contractId, HttpServletResponse response){
         try {
-            //String fileName = contractId.toString(); // это будет потом
-            String fileName = "hello.xlsx"; // это будет потом
+            String fileName = exportExcelService.getFileNameByContractId(contractId);
             byte[] fileData = exportExcelService.getFile(fileName);
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            headers.setContentDispositionFormData("attachment", fileName);
+            // Установка заголовков ответа
+            response.setContentType(exportExcelService.determineContentType());
+            response.setHeader("Content-Disposition", exportExcelService.determineContentDisposition(fileName));
 
-            return new ResponseEntity<>(fileData, headers, HttpStatus.OK);
+            // Запись данных в HTTP-ответ
+            response.getOutputStream().write(fileData);
+            response.getOutputStream().flush();
+            response.getOutputStream().close();
 
         } catch (IOException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            System.out.println(e);
         }
     }
 }
