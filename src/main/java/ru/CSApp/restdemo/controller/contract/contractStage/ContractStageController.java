@@ -1,21 +1,17 @@
 package ru.CSApp.restdemo.controller.contract.contractStage;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.CSApp.restdemo.exception.contract.ContractNotFoundException;
 import ru.CSApp.restdemo.model.ContractStage;
-import ru.CSApp.restdemo.model.SpendingMaterial;
-import ru.CSApp.restdemo.model.SpendingSalary;
 import ru.CSApp.restdemo.response.ResponseHandler;
 import ru.CSApp.restdemo.service.contract.IContractService;
 import ru.CSApp.restdemo.service.contract.contractStage.IContractStageService;
-import ru.CSApp.restdemo.service.contract.contractStage.exportExcel.ExportExcelService;
+import ru.CSApp.restdemo.service.contract.contractExcelWriter.ExportExcelService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-//import ru.CSApp.restdemo.service.contract.contractStage.IContractStageService;
 
 
 @RestController
@@ -70,8 +66,8 @@ public class ContractStageController {
     @GetMapping("/getExcelFile/{contractId}")
     public void getExcelFileByContract(@PathVariable("contractId") Integer contractId, HttpServletResponse response){
         try {
-            String fileName = exportExcelService.getFileNameByContractId(contractId);
-            byte[] fileData = exportExcelService.getFile(fileName);
+            String fileName = exportExcelService.getFileNameForClient(contractId);
+            byte[] fileData = exportExcelService.getExcelFile(contractId);
 
             // Установка заголовков ответа
             response.setContentType(exportExcelService.determineContentType());
@@ -82,6 +78,9 @@ public class ContractStageController {
             response.getOutputStream().flush();
             response.getOutputStream().close();
 
+        } catch (ContractNotFoundException e){
+            System.out.println(e);
+            //return new ResponseEntity<>("Resource not found", HttpStatus.NOT_FOUND); // 404
         } catch (IOException e) {
             System.out.println(e);
         }
