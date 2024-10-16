@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "Contracts")
-public class Contract {
+public class Contract implements IContractable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;

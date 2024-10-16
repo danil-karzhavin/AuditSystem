@@ -67,7 +67,7 @@ public class ContractStageController {
     public void getExcelFileByContract(@PathVariable("contractId") Integer contractId, HttpServletResponse response){
         try {
             String fileName = exportExcelService.getFileNameForClient(contractId);
-            byte[] fileData = exportExcelService.getExcelFile(contractId);
+            byte[] fileData = exportExcelService.createExcelFileContractStages(contractId);
 
             // Установка заголовков ответа
             response.setContentType(exportExcelService.determineContentType());

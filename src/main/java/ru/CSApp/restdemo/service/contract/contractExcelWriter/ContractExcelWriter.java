@@ -6,15 +6,16 @@ import ru.CSApp.restdemo.model.Contract;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import ru.CSApp.restdemo.model.IContractable;;
 
 public class ContractExcelWriter {
-    public static void writeContractToExcel(Contract contract, String filePath) {
+    public static void writeContractToExcel(IContractable contractable, String filePath) {
         Workbook workbook = new XSSFWorkbook(); // Создание нового экземпляра рабочей книги Excel
         try {
             Sheet sheet = workbook.createSheet("Contract Details"); // Создаётся лист с именем "Contract Details".
             createHeaderRow(sheet);
-            createDataRow(sheet, contract);
+            createDataRow(sheet, contractable);
 
             // Записываем данные в файл
             try (FileOutputStream out = new FileOutputStream(filePath)) {
@@ -42,6 +43,7 @@ public class ContractExcelWriter {
         headerRow.createCell(5).setCellValue("Actual Start Date");
         headerRow.createCell(6).setCellValue("Actual End Date");
         headerRow.createCell(7).setCellValue("Monetary Value");
+        headerRow.createCell(8).setCellValue("Main");
 
         // Настройка стиля (например, жирный шрифт)
         CellStyle headerStyle = sheet.getWorkbook().createCellStyle();
@@ -53,19 +55,23 @@ public class ContractExcelWriter {
         }
     }
 
-    private static void createDataRow(Sheet sheet, Contract contract) {
+    private static void createDataRow(Sheet sheet, IContractable contractable) {
         Row dataRow = sheet.createRow(1); // создаем строку, в которую помещаем значения полей
-        dataRow.createCell(0).setCellValue(contract.getId());
-        dataRow.createCell(1).setCellValue(contract.getName());
-        dataRow.createCell(2).setCellValue(contract.getType());
+        dataRow.createCell(0).setCellValue(contractable.getId());
+        dataRow.createCell(1).setCellValue(contractable.getName());
+        dataRow.createCell(2).setCellValue(contractable.getType());
 
-        // Убедитесь, что формат данных в этих ячейках соответствует
-        setDateValue(dataRow.createCell(3), contract.getPlanStartDate());
-        setDateValue(dataRow.createCell(4), contract.getPlanEndDate());
-        setDateValue(dataRow.createCell(5), contract.getActualStartDate());
-        setDateValue(dataRow.createCell(6), contract.getActualEndDate());
+        setDateValue(dataRow.createCell(3), contractable.getPlanStartDate());
+        setDateValue(dataRow.createCell(4), contractable.getPlanEndDate());
+        setDateValue(dataRow.createCell(5), contractable.getActualStartDate());
+        setDateValue(dataRow.createCell(6), contractable.getActualEndDate());
 
-        dataRow.createCell(7).setCellValue(contract.getMonetaryValue());
+        dataRow.createCell(7).setCellValue(contractable.getMonetaryValue());
+
+        if (contractable instanceof Contract)
+            dataRow.createCell(8).setCellValue("Yes");
+        else
+            dataRow.createCell(8).setCellValue("No");
     }
 
     private static void setDateValue(Cell cell, LocalDate date) {

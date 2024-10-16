@@ -7,12 +7,14 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "ContractsWithContractors")
-public class ContractWithContractor {
+public class ContractWithContractor implements IContractable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     String name;
-    ContractType contractType;
+
+    @Column(name = "contractType", nullable = false)
+    ContractType type;
     Integer monetaryValue;
 
     LocalDate planStartDate;
@@ -32,10 +34,10 @@ public class ContractWithContractor {
 
     public ContractWithContractor(){}
 
-    public ContractWithContractor(Integer id, String name, ContractType contractType, Integer monetaryValue, LocalDate planStartDate, LocalDate planEndDate, LocalDate actualStartDate, LocalDate actualEndDate, Contractor contractor, Integer contractId, Contract contract) {
+    public ContractWithContractor(Integer id, String name, ContractType type, Integer monetaryValue, LocalDate planStartDate, LocalDate planEndDate, LocalDate actualStartDate, LocalDate actualEndDate, Contractor contractor, Integer contractId, Contract contract) {
         this.id = id;
         this.name = name;
-        this.contractType = contractType;
+        this.type = type;
         this.monetaryValue = monetaryValue;
         this.planStartDate = planStartDate;
         this.planEndDate = planEndDate;
@@ -62,12 +64,12 @@ public class ContractWithContractor {
         this.name = name;
     }
 
-    public ContractType getContractType() {
-        return contractType;
+    public String getType() {
+        return type.toString();
     }
 
-    public void setContractType(ContractType contractType) {
-        this.contractType = contractType;
+    public void setType(ContractType type) {
+        this.type = type;
     }
 
     public Integer getMonetaryValue() {

@@ -1,8 +1,6 @@
 package ru.CSApp.restdemo.service.contract.contractWithContractor;
 
 import org.springframework.stereotype.Service;
-import ru.CSApp.restdemo.exception.contract.ContractNotFoundException;
-import ru.CSApp.restdemo.exception.contract.contractStage.ContractStageNotFoundException;
 import ru.CSApp.restdemo.exception.contract.contractWithContractor.ContractWithContractorNotFoundException;
 import ru.CSApp.restdemo.model.Contract;
 import ru.CSApp.restdemo.model.ContractWithContractor;
@@ -22,8 +20,14 @@ public class ContractWithContractorService implements IContractWithContractorSer
     }
 
     @Override
-    public List<ContractWithContractor> getContractWithContractorsByContractId(Integer contractId) {
+    public List<ContractWithContractor> getContractsWithContractorsByContractId(Integer contractId) {
         var contractWithContractors = contractWithContractorRepository.findByContractId(contractId);
+        return contractWithContractors;
+    }
+
+    @Override
+    public List<ContractWithContractor> getAllContractsWithContractors() {
+        var contractWithContractors = contractWithContractorRepository.findAll();
         return contractWithContractors;
     }
 
@@ -66,7 +70,7 @@ public class ContractWithContractorService implements IContractWithContractorSer
 
     @Override
     public Integer deleteAllContractsWithContractorsByContractId(Integer contractId) {
-        for (var obj : getContractWithContractorsByContractId(contractId)){
+        for (var obj : getContractsWithContractorsByContractId(contractId)){
             contractWithContractorRepository.deleteById(obj.getId());
         }
         return 0;

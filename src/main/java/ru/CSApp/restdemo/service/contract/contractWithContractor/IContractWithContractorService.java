@@ -5,8 +5,9 @@ import ru.CSApp.restdemo.model.ContractWithContractor;
 import java.util.List;
 
 public interface IContractWithContractorService {
-    public List<ContractWithContractor> getContractWithContractorsByContractId(Integer contractId);
+    public List<ContractWithContractor> getContractsWithContractorsByContractId(Integer contractId);
     public ContractWithContractor getContractWithContractorById(Integer contractWitContractorId);
+    public List<ContractWithContractor> getAllContractsWithContractors();
 
     public Integer createContractWithContractorForContract(Integer contractId, ContractWithContractor contractWithContractor);
 

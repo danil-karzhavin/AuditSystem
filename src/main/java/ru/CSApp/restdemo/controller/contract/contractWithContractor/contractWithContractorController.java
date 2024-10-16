@@ -5,8 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.CSApp.restdemo.model.ContractWithContractor;
 import ru.CSApp.restdemo.response.ResponseHandler;
-import ru.CSApp.restdemo.service.contract.IContractService;
-import ru.CSApp.restdemo.service.contract.contractWithContractor.ContractWithContractorService;
 import ru.CSApp.restdemo.service.contract.contractWithContractor.IContractWithContractorService;
 
 @RestController
@@ -21,7 +19,7 @@ public class contractWithContractorController {
     @GetMapping("byContract/{contractId}")
     public ResponseEntity<Object> getAllSubContractsByContractId(@PathVariable("contractId") Integer contractId){
         return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, subContractService.getContractWithContractorsByContractId(contractId));
+                HttpStatus.OK, subContractService.getContractsWithContractorsByContractId(contractId));
     }
 
     @GetMapping("/{contractWithContractorId}")
