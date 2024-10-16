@@ -103,9 +103,7 @@ public class ExportExcelService {
 
         String fileName = getFullFileNameContracts();
 
-        for(IContractable contractable : contractables){
-            ContractExcelWriter.writeContractToExcel(contractable, fileName);
-        }
+        ContractExcelWriter.writeContractToExcel(contractables, fileName);
 
         return getExcelFile(fileName);
     }

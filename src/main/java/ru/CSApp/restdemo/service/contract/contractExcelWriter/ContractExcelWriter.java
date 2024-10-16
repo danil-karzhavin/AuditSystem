@@ -6,16 +6,19 @@ import ru.CSApp.restdemo.model.Contract;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
+
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import ru.CSApp.restdemo.model.IContractable;;
+import ru.CSApp.restdemo.model.IContractable;
 
 public class ContractExcelWriter {
-    public static void writeContractToExcel(IContractable contractable, String filePath) {
+    public static void writeContractToExcel(List<IContractable> contractable, String filePath) {
         Workbook workbook = new XSSFWorkbook(); // Создание нового экземпляра рабочей книги Excel
         try {
             Sheet sheet = workbook.createSheet("Contract Details"); // Создаётся лист с именем "Contract Details".
             createHeaderRow(sheet);
-            createDataRow(sheet, contractable);
+            for(int i = 0; i < contractable.size(); i++)
+                createDataRow(sheet, contractable.get(i), i + 1);
 
             // Записываем данные в файл
             try (FileOutputStream out = new FileOutputStream(filePath)) {
@@ -55,8 +58,8 @@ public class ContractExcelWriter {
         }
     }
 
-    private static void createDataRow(Sheet sheet, IContractable contractable) {
-        Row dataRow = sheet.createRow(1); // создаем строку, в которую помещаем значения полей
+    private static void createDataRow(Sheet sheet, IContractable contractable, Integer numRow) {
+        Row dataRow = sheet.createRow(numRow); // создаем строку, в которую помещаем значения полей
         dataRow.createCell(0).setCellValue(contractable.getId());
         dataRow.createCell(1).setCellValue(contractable.getName());
         dataRow.createCell(2).setCellValue(contractable.getType());
@@ -66,7 +69,7 @@ public class ContractExcelWriter {
         setDateValue(dataRow.createCell(5), contractable.getActualStartDate());
         setDateValue(dataRow.createCell(6), contractable.getActualEndDate());
 
-        dataRow.createCell(7).setCellValue(contractable.getMonetaryValue());
+        dataRow.createCell(7).setCellValue(contractable.getMonetaryValue() != null ? contractable.getMonetaryValue() : 0);
 
         if (contractable instanceof Contract)
             dataRow.createCell(8).setCellValue("Yes");
