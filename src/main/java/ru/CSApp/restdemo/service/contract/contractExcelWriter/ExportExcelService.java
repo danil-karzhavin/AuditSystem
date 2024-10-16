@@ -3,9 +3,11 @@ package ru.CSApp.restdemo.service.contract.contractExcelWriter;
 import org.springframework.stereotype.Service;
 import ru.CSApp.restdemo.exception.contract.ContractNotFoundException;
 import ru.CSApp.restdemo.model.Contract;
+import ru.CSApp.restdemo.model.ContractStage;
 import ru.CSApp.restdemo.model.ContractWithContractor;
 import ru.CSApp.restdemo.model.IContractable;
 import ru.CSApp.restdemo.service.contract.ContractService;
+import ru.CSApp.restdemo.service.contract.contractStage.ContractStageService;
 import ru.CSApp.restdemo.service.contract.contractWithContractor.ContractWithContractorService;
 
 import java.nio.file.Files;
@@ -26,11 +28,13 @@ public class ExportExcelService {
     //private final String fileDirectory = "C:/Users/karzh/source//repos/javaProjects/AuditSystem/excelFiles";
     private final Path fileStorageLocation = Paths.get("/path/to/your/files").toAbsolutePath().normalize();
     ContractService contractService;
+    ContractStageService contractStageService;
     ContractWithContractorService contractWithContractorService;
 
-    public ExportExcelService(ContractService contractService, ContractWithContractorService contractWithContractorService) {
+    public ExportExcelService(ContractService contractService, ContractWithContractorService contractWithContractorService, ContractStageService contractStageService) {
         this.contractService = contractService;
         this.contractWithContractorService = contractWithContractorService;
+        this.contractStageService = contractStageService;
     }
 
     public String determineContentType() {
@@ -53,26 +57,24 @@ public class ExportExcelService {
     }
 
     public String getFullFileNameContractStages(Integer contractId){
-        return fileDirectoryContracts + "/" + getFileNameForClient(contractId);
+        return fileDirectoryContractStages + "/" + getFileNameForClient(contractId);
     }
     public String getFileNameForClient(Integer contractId){
         return String.format("ExportStages Contract_%d.xlsx", contractId);
     }
 
     public String getFullFileNameContracts(){
-        return fileDirectoryContractStages + getFileNameContractsForClient();
+        return fileDirectoryContracts + getFileNameContractsForClient();
     }
     public String getFileNameContractsForClient(){
         return String.format("ExportContracts.xlsx");
     }
 
     public byte[] createExcelFileContractStages(Integer contractId) throws IOException, ContractNotFoundException {
-        Contract contract = contractService.getContractById(contractId);
-        if(contract == null)
-            throw new ContractNotFoundException("There is no object with such Id");
+        List<ContractStage> contractStages = contractStageService.getContractStagesByContractId(contractId);
 
         String fileName = getFullFileNameContractStages(contractId);
-        //ContractExcelWriter.writeContractToExcel(contract, fileName);
+        ContractStagesExcelWriter.writeContractStagesToExcel(contractStages, fileName);
 
         return getExcelFile(fileName);
     }
@@ -103,7 +105,7 @@ public class ExportExcelService {
 
         String fileName = getFullFileNameContracts();
 
-        ContractExcelWriter.writeContractToExcel(contractables, fileName);
+        ContractExcelWriter.writeContractsToExcel(contractables, fileName);
 
         return getExcelFile(fileName);
     }
