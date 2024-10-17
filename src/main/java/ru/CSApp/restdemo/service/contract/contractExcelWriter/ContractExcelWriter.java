@@ -1,6 +1,7 @@
 package ru.CSApp.restdemo.service.contract.contractExcelWriter;
 
 import org.apache.poi.ss.usermodel.*;
+import org.springframework.scheduling.annotation.Async;
 import ru.CSApp.restdemo.model.Contract;
 
 import java.io.FileOutputStream;
@@ -13,6 +14,7 @@ import ru.CSApp.restdemo.model.ContractStage;
 import ru.CSApp.restdemo.model.IContractable;
 
 public class ContractExcelWriter {
+    @Async
     public static void writeContractsToExcel(List<IContractable> contractable, String filePath) {
         Workbook workbook = new XSSFWorkbook(); // Создание нового экземпляра рабочей книги Excel
         try {

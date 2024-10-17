@@ -72,7 +72,7 @@ public class ContractController {
     @GetMapping("/getExcelFile")
     public void getExcelFileByContract(@RequestBody Map<String, Object> dates, HttpServletResponse response){
         try {
-            String fileName = exportExcelService.getFileNameContractsForClient();
+            String fileName = exportExcelService.getContractsFileName();
             byte[] fileData = exportExcelService.createExcelFileContracts(dates);
 
             // Установка заголовков ответа
