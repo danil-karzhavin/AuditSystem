@@ -45,4 +45,10 @@ public class ContractorController {
         return ResponseHandler.responseBuilder("",
                 HttpStatus.OK, contractorService.deleteContractorById(contractId));
     }
+
+    @DeleteMapping("/") // только для тестов
+    public ResponseEntity<Object> deleteAllContractor(){
+        return ResponseHandler.responseBuilder("",
+                HttpStatus.OK, contractorService.deleteAllContractors());
+    }
 }

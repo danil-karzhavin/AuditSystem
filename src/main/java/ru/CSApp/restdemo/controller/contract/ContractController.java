@@ -32,9 +32,10 @@ public class ContractController {
     }
 
     @GetMapping("/")
-    public List<Contract> getAllContracts()
+    public ResponseEntity<Object> getAllContracts()
     {
-        return contractService.getAllContracts();
+        return ResponseHandler.responseBuilder("",
+                HttpStatus.OK, contractService.getAllContracts());
     }
 
     @GetMapping("/byName")

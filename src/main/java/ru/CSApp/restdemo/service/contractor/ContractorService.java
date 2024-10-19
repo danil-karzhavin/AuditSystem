@@ -64,4 +64,10 @@ public class ContractorService implements IContractorService {
             return null;
         }
     }
+
+    @Override
+    public Integer deleteAllContractors() {
+        contractorRepository.deleteAll();
+        return 0;
+    }
 }
