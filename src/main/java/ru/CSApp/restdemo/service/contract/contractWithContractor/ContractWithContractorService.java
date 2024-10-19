@@ -4,8 +4,10 @@ import org.springframework.stereotype.Service;
 import ru.CSApp.restdemo.exception.contract.contractWithContractor.ContractWithContractorNotFoundException;
 import ru.CSApp.restdemo.model.Contract;
 import ru.CSApp.restdemo.model.ContractWithContractor;
+import ru.CSApp.restdemo.model.Contractor;
 import ru.CSApp.restdemo.repository.contract.IContractRepository;
 import ru.CSApp.restdemo.repository.contractor.IContractWithContractorRepository;
+import ru.CSApp.restdemo.repository.contractor.IContractorRepository;
 
 import java.util.List;
 
@@ -13,10 +15,12 @@ import java.util.List;
 public class ContractWithContractorService implements IContractWithContractorService{
     IContractWithContractorRepository contractWithContractorRepository;
     IContractRepository contractRepository;
+    IContractorRepository contractorRepository;
 
-    public ContractWithContractorService(IContractWithContractorRepository contractWithContractorRepository, IContractRepository contractRepository) {
+    public ContractWithContractorService(IContractWithContractorRepository contractWithContractorRepository, IContractRepository contractRepository, IContractorRepository contractorRepository) {
         this.contractWithContractorRepository = contractWithContractorRepository;
         this.contractRepository = contractRepository;
+        this.contractorRepository = contractorRepository;
     }
 
     @Override
@@ -44,15 +48,19 @@ public class ContractWithContractorService implements IContractWithContractorSer
     }
 
     @Override
-    public Integer createContractWithContractorForContract(Integer contractId, ContractWithContractor contractWithContractor) {
-        Contract contract = contractRepository.findById(contractId).get();
-
-        contractWithContractor.setContract(contract);
-        contractWithContractor.setContractId(contractId);
-
+    public Integer createContractWithContractorForContract(Integer contractorId, ContractWithContractor contractWithContractor) {
+        Contract contract = contractRepository.findById(contractWithContractor.getContractId()).get();
         contract.getSubContracts().add(contractWithContractor);
+        contractWithContractor.setContract(contract);
+
+        Contractor contractor = contractorRepository.findById(contractorId).get();
+        contractor.setContractWithContractor(contractWithContractor);
+        contractWithContractor.setContractor(contractor);
+
+        contractWithContractorRepository.save(contractWithContractor);
         contractRepository.save(contract);
-        return 0;
+        contractorRepository.save(contractor);
+        return contractorId;
     }
 
     @Override

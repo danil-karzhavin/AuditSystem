@@ -9,7 +9,7 @@ public interface IContractWithContractorService {
     public ContractWithContractor getContractWithContractorById(Integer contractWitContractorId);
     public List<ContractWithContractor> getAllContractsWithContractors();
 
-    public Integer createContractWithContractorForContract(Integer contractId, ContractWithContractor contractWithContractor);
+    public Integer createContractWithContractorForContract(Integer contractorId, ContractWithContractor contractWithContractor);
 
     public Integer deleteContractWithContractorById(Integer ContractWithContractorId);
     public Integer deleteAllContractsWithContractorsByContractId(Integer contractId);

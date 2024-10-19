@@ -28,10 +28,10 @@ public class contractWithContractorController {
                 HttpStatus.OK, subContractService.getContractWithContractorById(contractWithContractorId));
     }
 
-    @PostMapping("/{contractId}")
-    public ResponseEntity<Object> createSubContract(@PathVariable("contractId") Integer contractId, @RequestBody ContractWithContractor contractWithContractor){
+    @PostMapping("/{contractorId}")
+    public ResponseEntity<Object> createSubContract(@PathVariable("contractorId") Integer contractorId, @RequestBody ContractWithContractor contractWithContractor){
         return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, subContractService.createContractWithContractorForContract(contractId, contractWithContractor));
+                HttpStatus.OK, subContractService.createContractWithContractorForContract(contractorId, contractWithContractor));
     }
 
     @DeleteMapping("/{contractWithContractorId}")
