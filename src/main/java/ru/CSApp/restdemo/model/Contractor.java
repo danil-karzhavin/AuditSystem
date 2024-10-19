@@ -2,6 +2,7 @@ package ru.CSApp.restdemo.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import ru.CSApp.restdemo.exception.contractor.Inn.InvalidInnFormat;
 
 import javax.persistence.*;
 
@@ -14,9 +15,10 @@ public class Contractor {
     String name;
     String address;
 
-    @OneToOne(mappedBy = "contractor")
-    @JsonManagedReference
-    Inn inn;
+//    @OneToOne(mappedBy = "contractor")
+//    @JsonManagedReference
+//    Inn inn;
+    String inn;
 
     @Column(name = "contractWithContractorId", insertable = false, updatable = false)
     Integer contractWithContractorId;
@@ -37,7 +39,7 @@ public class Contractor {
         return address;
     }
 
-    public Inn getInn() {
+    public String getInn() {
         return inn;
     }
 
@@ -61,8 +63,10 @@ public class Contractor {
         this.address = address;
     }
 
-    public void setInn(Inn inn) {
-        this.inn = inn;
+    public void setInn(String inn) {
+        if(inn.length() == 12 && inn.chars().allMatch(Character::isDigit))
+            this.inn = inn;
+        else throw new InvalidInnFormat("Неверный формат ИНН");
     }
 
     public void setContractWithContractorId(Integer contractWithContractorId) {
