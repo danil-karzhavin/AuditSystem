@@ -1,8 +1,5 @@
 package ru.CSApp.restdemo.service.user;
 
-import io.swagger.models.auth.In;
-import ru.CSApp.restdemo.exception.contract.contractStage.ContractStageNotFoundException;
-import ru.CSApp.restdemo.exception.contractor.ContractorNotFoundException;
 import ru.CSApp.restdemo.exception.user.UserNotFoundException;
 import ru.CSApp.restdemo.model.User;
 import ru.CSApp.restdemo.repository.user.UserRepository;
@@ -31,6 +28,21 @@ public class UserService implements IUserService {
             return userRepository.findById(userId).get();
         }
         catch (UserNotFoundException ex){
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public User getUserByName(String name) {
+        try{
+            User user = userRepository.findByUsername(name);
+            if(user == null)
+                throw new UserNotFoundException("There is no user with such name");
+            return user;
+        }
+        catch(UserNotFoundException ex){
+            ex.printStackTrace();
             return null;
         }
     }
@@ -56,6 +68,7 @@ public class UserService implements IUserService {
             return userId;
         }
         catch(UserNotFoundException ex){
+            ex.printStackTrace();
             return null;
         }
     }
