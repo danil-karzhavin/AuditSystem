@@ -65,3 +65,5 @@ surefire-reports/
 .classpath
 .factorypath
 .apt_generated
+
+*./excelFiles/

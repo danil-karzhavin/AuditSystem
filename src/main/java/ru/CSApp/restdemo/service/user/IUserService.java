@@ -9,6 +9,7 @@ public interface IUserService {
     public List<User> getAllUsers();
     public User getUserById(Integer id);
     public User getUserByName(String name);
+    public User getUserByNameAndPassword(String name, String password);
 
     public Integer createUser(User user);
     public User updateUser(User user);

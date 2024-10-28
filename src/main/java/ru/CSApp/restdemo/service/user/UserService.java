@@ -48,6 +48,20 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public User getUserByNameAndPassword(String name, String password) {
+        try{
+            User user = userRepository.findByUsernameAndPassword(name, password);
+            if(user == null)
+                throw new UserNotFoundException("There is no user with such name");
+            return user;
+        }
+        catch(UserNotFoundException ex){
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     public Integer createUser(User user) {
         userRepository.save(user);
         return user.getId();
