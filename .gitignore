@@ -67,3 +67,4 @@ surefire-reports/
 .apt_generated
 
 *./excelFiles/
+*.xlsx
