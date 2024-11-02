@@ -9,11 +9,11 @@ public interface IContractStageService {
     public ContractStage getContractStageById(Integer contractStageId);
     public List<ContractStage> getContractStagesByContractId(Integer contractId);
 
-    public void createContractStageForContract(Integer contractId, ContractStage contractStage);
+    public ContractStage createContractStageForContract(Integer contractId, ContractStage contractStage);
 
     public ContractStage updateContactStage(ContractStage contractStage);
-    public void deleteContractStageFromContract(Integer contractId, ContractStage contractStage);
+    // public void deleteContractStageByContractId(Integer contractId, ContractStage contractStage);
 
-    public Integer deleteContractStageById(Integer contractStageId);
-    public Integer deleteAllContractStagesByContractId(Integer contractId);
+    public void deleteContractStageById(Integer contractStageId);
+    public void deleteAllContractStagesByContractId(Integer contractId);
 }

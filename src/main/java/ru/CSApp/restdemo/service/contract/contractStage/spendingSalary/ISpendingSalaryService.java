@@ -9,8 +9,8 @@ public interface ISpendingSalaryService {
     public List<SpendingSalary> getSpendingSalariesByContractStageId(Integer contractStageId);
 
     public SpendingSalary updateSpendingSalary(SpendingSalary spendingSalary);
-    public void createSpendingSalaryForContractStage(Integer contractStageId, SpendingSalary spendingSalary);
+    public SpendingSalary createSpendingSalaryForContractStage(Integer contractStageId, SpendingSalary spendingSalary);
 
-    public Integer deleteSpendingSalaryById(Integer SpendingSalaryId);
-    public Integer deleteAllSpendingSalariesByContractStageId(Integer contractStageId);
+    public void deleteSpendingSalaryById(Integer SpendingSalaryId);
+    public void deleteAllSpendingSalariesByContractStageId(Integer contractStageId);
 }

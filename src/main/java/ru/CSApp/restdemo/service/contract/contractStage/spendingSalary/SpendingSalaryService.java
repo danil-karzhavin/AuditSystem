@@ -23,14 +23,9 @@ public class SpendingSalaryService implements ISpendingSalaryService{
 
     @Override
     public SpendingSalary getSpendingSalaryById(Integer spendingSalaryId) {
-        try{
-            if (spendingSalaryRepository.findById(spendingSalaryId).isEmpty())
-              throw new SpendingSalaryNotFoundException("There is no object with such Id");
-            return spendingSalaryRepository.findById(spendingSalaryId).get();
-        }
-        catch (SpendingSalaryNotFoundException ex){
-            return null;
-        }
+        if (spendingSalaryRepository.findById(spendingSalaryId).isEmpty())
+            throw new SpendingSalaryNotFoundException("There is no object with such Id");
+        return spendingSalaryRepository.findById(spendingSalaryId).get();
     }
 
     @Override
@@ -40,13 +35,14 @@ public class SpendingSalaryService implements ISpendingSalaryService{
     }
 
     @Override
-    public void createSpendingSalaryForContractStage(Integer contractStageId, SpendingSalary spendingSalary) {
+    public SpendingSalary createSpendingSalaryForContractStage(Integer contractStageId, SpendingSalary spendingSalary) {
         ContractStage contractStage = contractStageRepository.findById(contractStageId).get();
         spendingSalary.setContractStage(contractStage);
         spendingSalary.setContractStageId(contractStageId);
 
         contractStage.getSpendingSalaries().add(spendingSalary);
         contractStageRepository.save(contractStage);
+        return spendingSalary;
     }
 
     @Override
@@ -56,23 +52,16 @@ public class SpendingSalaryService implements ISpendingSalaryService{
     }
 
     @Override
-    public Integer deleteSpendingSalaryById(Integer spendingSalaryId) {
-        try{
-            if(spendingSalaryRepository.findById(spendingSalaryId).isEmpty())
-                throw new SpendingSalaryNotFoundException("There is no object with such Id");
-            spendingSalaryRepository.deleteById(spendingSalaryId);
-            return spendingSalaryId;
-        }
-        catch(SpendingSalaryNotFoundException ex){
-            return null;
-        }
+    public void deleteSpendingSalaryById(Integer spendingSalaryId) {
+        if(spendingSalaryRepository.findById(spendingSalaryId).isEmpty())
+            throw new SpendingSalaryNotFoundException("There is no object with such Id");
+        spendingSalaryRepository.deleteById(spendingSalaryId);
     }
 
     @Override
-    public Integer deleteAllSpendingSalariesByContractStageId(Integer contractStageId) {
+    public void deleteAllSpendingSalariesByContractStageId(Integer contractStageId) {
         for(var obj : getSpendingSalariesByContractStageId(contractStageId)){
             spendingSalaryRepository.deleteById(obj.getId());
         }
-        return 0;
     }
 }

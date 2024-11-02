@@ -18,22 +18,22 @@ public class ContractService implements IContractService {
     }
 
     @Override
-    public String createContract(Contract contract) {
+    public Contract createContract(Contract contract) {
         // contractRepository.save(contract);
-
         for (ContractStage stage : contract.getStages()) {
             stage.setContract(contract);
         }
         for (ContractWithContractor contractWithContractor : contract.getSubContracts()) {
             contractWithContractor.setContract(contract);
         }
-        return contractRepository.save(contract).toString();
+        contractRepository.save(contract);
+        return contract;
     }
 
     @Override
-    public String updateContract(Contract contract) {
+    public Contract updateContract(Contract contract) {
         contractRepository.save(contract);
-        return "Success";
+        return contract;
     }
 
     @Override
@@ -44,14 +44,9 @@ public class ContractService implements IContractService {
 
     @Override
     public Contract getContractById(Integer id) {
-        try{
-            if(contractRepository.findById(id).isEmpty())
-                throw new ContractNotFoundException("There is no object with such Id");
-            return contractRepository.findById(id).get();
-        }
-        catch(ContractNotFoundException ex){
-            return null;
-        }
+        if(contractRepository.findById(id).isEmpty())
+            throw new ContractNotFoundException("There is no object with such Id");
+        return contractRepository.findById(id).get();
     }
 
     @Override
@@ -62,21 +57,14 @@ public class ContractService implements IContractService {
     }
 
     @Override
-    public Integer deleteContractById(Integer contractId) {
-        try{
-            if(contractRepository.findById(contractId).isEmpty())
-                throw new ContractNotFoundException("There is no object with such Id");
-            contractRepository.deleteById(contractId);
-            return contractId;
-        }
-        catch(ContractNotFoundException ex){
-            return null;
-        }
+    public void deleteContractById(Integer contractId) {
+        if(contractRepository.findById(contractId).isEmpty())
+            throw new ContractNotFoundException("Contract no found with such Id");
+        contractRepository.deleteById(contractId);
     }
 
     @Override
-    public Integer deleteAllContracts() {
+    public void deleteAllContracts() {
         contractRepository.deleteAll();
-        return 0;
     }
 }

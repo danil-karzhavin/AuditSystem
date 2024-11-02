@@ -13,6 +13,6 @@ public interface IContractorService {
     public Contractor createContractor(Contractor contractor);
     public Contractor updateContractor(Contractor contractor);
 
-    public Integer deleteContractorById(Integer contractorId);
-    public Integer deleteAllContractors(); // только для тестов
+    public void deleteContractorById(Integer contractorId);
+    public void deleteAllContractors(); // только для тестов
 }

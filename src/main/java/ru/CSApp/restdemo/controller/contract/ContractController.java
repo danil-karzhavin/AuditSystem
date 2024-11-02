@@ -27,47 +27,41 @@ public class ContractController {
 
     @GetMapping("/{contractId}")
     public ResponseEntity<Object> getContractById(@PathVariable("contractId") Integer contractId){
-        return ResponseHandler.responseBuilder("Requested Contract Details are given here",
-                HttpStatus.OK, contractService.getContractById(contractId));
+        return ResponseEntity.ok(contractService.getContractById(contractId));
     }
 
     @GetMapping("/")
-    public ResponseEntity<Object> getAllContracts()
-    {
-        return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, contractService.getAllContracts());
+    public ResponseEntity<Object> getAllContracts() {
+        return ResponseEntity.ok(contractService.getAllContracts());
     }
 
     @GetMapping("/byName")
     public ResponseEntity<Object> getContractByName(@RequestBody Map<String, Object> dataName){
-        return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, contractService.getContractByName(dataName));
+        return ResponseEntity.ok(contractService.getContractByName(dataName));
     }
 
     @PostMapping("/")
-    public String createContract(@RequestBody Contract contract)
+    public ResponseEntity<Object> createContract(@RequestBody Contract contract)
     {
-        contractService.createContract(contract);
-        return "Contract Created Successfully";
+        return ResponseEntity.ok(contractService.createContract(contract));
     }
 
     @PutMapping("/")
     public ResponseEntity<Object> updateContract(@RequestBody Contract contract)
     {
-        return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, contractService.updateContract(contract));
+        return ResponseEntity.ok(contractService.updateContract(contract));
     }
 
     @DeleteMapping("/{contractId}")
     public ResponseEntity<Object> deleteContractById(@PathVariable("contractId") Integer contractId){
-        return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, contractService.deleteContractById(contractId));
+        contractService.deleteContractById(contractId);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/")
     public ResponseEntity<Object> deleteAllContracts(){
-        return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, contractService.deleteAllContracts());
+        contractService.deleteAllContracts();
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/getExcelFile")

@@ -20,13 +20,9 @@ public class SpendingMaterialService implements ISpendingMaterialService {
 
     @Override
     public SpendingMaterial getSpendingMaterialById(Integer spendingMaterialId) {
-        try {
-            if (spendingMaterialRepository.findById(spendingMaterialId).isEmpty())
-                throw new SpendingMaterialNotFoundException("There is no object with such Id");
-            return spendingMaterialRepository.findById(spendingMaterialId).get();
-        } catch (SpendingMaterialNotFoundException ex) {
-            return null;
-        }
+        if (spendingMaterialRepository.findById(spendingMaterialId).isEmpty())
+            throw new SpendingMaterialNotFoundException("Not found spending material with such Id");
+        return spendingMaterialRepository.findById(spendingMaterialId).get();
     }
 
     @Override
@@ -36,13 +32,14 @@ public class SpendingMaterialService implements ISpendingMaterialService {
     }
 
     @Override
-    public void createSpendingMaterialForContractStage(Integer contractStageId, SpendingMaterial spendingMaterial) {
+    public SpendingMaterial createSpendingMaterialForContractStage(Integer contractStageId, SpendingMaterial spendingMaterial) {
         ContractStage contractStage = contractStageRepository.findById(contractStageId).get();
         spendingMaterial.setContractStage(contractStage);
         spendingMaterial.setContractStageId(contractStageId);
 
         contractStage.getSpendingMaterials().add(spendingMaterial);
         contractStageRepository.save(contractStage);
+        return spendingMaterial;
     }
 
     @Override
@@ -52,23 +49,16 @@ public class SpendingMaterialService implements ISpendingMaterialService {
     }
 
     @Override
-    public Integer deleteSpendingMaterialById(Integer spendingMaterialId) {
-        try{
-            if(spendingMaterialRepository.findById(spendingMaterialId).isEmpty())
-                throw new SpendingMaterialNotFoundException("There is no object with such Id");
-            spendingMaterialRepository.deleteById(spendingMaterialId);
-            return spendingMaterialId;
-        }
-        catch(SpendingMaterialNotFoundException ex){
-            return null;
-        }
+    public void deleteSpendingMaterialById(Integer spendingMaterialId) {
+        if(spendingMaterialRepository.findById(spendingMaterialId).isEmpty())
+            throw new SpendingMaterialNotFoundException("Not found spending material with such Id");
+        spendingMaterialRepository.deleteById(spendingMaterialId);
     }
 
     @Override
-    public Integer deleteAllSpendingMaterialByContractStageId(Integer contractStageId) {
+    public void deleteAllSpendingMaterialByContractStageId(Integer contractStageId) {
         for(var obj : getSpendingMaterialsByContractStageId(contractStageId)){
             spendingMaterialRepository.deleteById(obj.getId());
         }
-        return 0;
     }
 }

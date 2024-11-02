@@ -9,8 +9,8 @@ public interface IContractWithContractorService {
     public ContractWithContractor getContractWithContractorById(Integer contractWitContractorId);
     public List<ContractWithContractor> getAllContractsWithContractors();
 
-    public Integer createContractWithContractorForContract(Integer contractorId, ContractWithContractor contractWithContractor);
+    public ContractWithContractor createContractWithContractorForContract(Integer contractorId, ContractWithContractor contractWithContractor);
 
-    public Integer deleteContractWithContractorById(Integer ContractWithContractorId);
-    public Integer deleteAllContractsWithContractorsByContractId(Integer contractId);
+    public void deleteContractWithContractorById(Integer ContractWithContractorId);
+    public void deleteAllContractsWithContractorsByContractId(Integer contractId);
 }

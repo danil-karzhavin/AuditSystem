@@ -18,37 +18,33 @@ public class SpendingMaterialController {
 
     @GetMapping("/{spendingMaterialId}")
     public ResponseEntity<Object> getSpendingMaterialById(@PathVariable("spendingMaterialId") Integer spendingMaterialId){
-        return ResponseHandler.responseBuilder("Requested Spending Material Details are given here",
-                HttpStatus.OK, spendingMaterialService.getSpendingMaterialById(spendingMaterialId));
+        return ResponseEntity.ok(spendingMaterialService.getSpendingMaterialById(spendingMaterialId));
     }
 
     @GetMapping("/byContractStage/{contractStageId}")
     public ResponseEntity<Object> getSpendingMaterialsByContractStageId(@PathVariable("contractStageId") Integer contractStageId){
-        return ResponseHandler.responseBuilder("Requested Spending Material Details are given here",
-                HttpStatus.OK, spendingMaterialService.getSpendingMaterialsByContractStageId(contractStageId));
+        return ResponseEntity.ok(spendingMaterialService.getSpendingMaterialsByContractStageId(contractStageId));
     }
 
     @PostMapping("/newSpendingMaterial/{contractStageId}")
-    public String createSpendingMaterialForContractStage(@PathVariable("contractStageId") Integer contractStageId, @RequestBody SpendingMaterial spendingMaterial){
-        spendingMaterialService.createSpendingMaterialForContractStage(contractStageId, spendingMaterial);
-        return "Create Spending Material For Contract Stage Successfully";
+    public ResponseEntity<Object> createSpendingMaterialForContractStage(@PathVariable("contractStageId") Integer contractStageId, @RequestBody SpendingMaterial spendingMaterial){
+        return ResponseEntity.ok(spendingMaterialService.createSpendingMaterialForContractStage(contractStageId, spendingMaterial));
     }
 
     @PutMapping("/")
     public ResponseEntity<Object> updateSpendingMaterial(@RequestBody SpendingMaterial spendingMaterial){
-        return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, spendingMaterialService.updateSpendingMaterial(spendingMaterial));
+        return ResponseEntity.ok(spendingMaterialService.updateSpendingMaterial(spendingMaterial));
     }
 
     @DeleteMapping("/{spendingMaterialId}")
     public ResponseEntity<Object> deleteSpendingMaterialById(@PathVariable("spendingMaterialId") Integer spendingMaterialId){
-        return ResponseHandler.responseBuilder("Deleted Spending Material",
-                HttpStatus.OK, spendingMaterialService.deleteSpendingMaterialById(spendingMaterialId));
+        spendingMaterialService.deleteSpendingMaterialById(spendingMaterialId);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/byContractStage/{contractStageId}")
     public ResponseEntity<Object> deleteAllSpendingMaterialByContractStageId(@PathVariable("contractStageId") Integer contractStageId){
-        return ResponseHandler.responseBuilder("Deleted Spending Material by Contract Stage Id",
-                HttpStatus.OK, spendingMaterialService.deleteAllSpendingMaterialByContractStageId(contractStageId));
+        spendingMaterialService.deleteAllSpendingMaterialByContractStageId(contractStageId);
+        return ResponseEntity.noContent().build();
     }
 }

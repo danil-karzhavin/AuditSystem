@@ -29,38 +29,34 @@ public class ContractStageController {
 
     @GetMapping("/{contractStageId}")
     public ResponseEntity<Object> getContractStageById(@PathVariable("contractStageId") Integer contractStageId){
-        return ResponseHandler.responseBuilder("Requested Contract Stage Details are given here",
-                HttpStatus.OK, contractStageService.getContractStageById(contractStageId));
+        return ResponseEntity.ok(contractStageService.getContractStageById(contractStageId));
     }
 
     @GetMapping("/byContract/{contractId}")
     public ResponseEntity<Object> getContractStagesByContractId(@PathVariable("contractId") Integer contractId){
-        return ResponseHandler.responseBuilder("Requested Contract Stage Details are given here",
-                HttpStatus.OK, contractStageService.getContractStagesByContractId(contractId));
+        return ResponseEntity.ok(contractStageService.getContractStagesByContractId(contractId));
     }
 
     @PostMapping("/newContractStage/{contractId}")
-    public String createContractStageForContract(@PathVariable("contractId") Integer contractId, @RequestBody ContractStage contractStage){
-        contractStageService.createContractStageForContract(contractId, contractStage);
-        return "Create Contract Stage For Contract Successfully";
+    public ResponseEntity<Object> createContractStageForContract(@PathVariable("contractId") Integer contractId, @RequestBody ContractStage contractStage){
+        return ResponseEntity.ok(contractStageService.createContractStageForContract(contractId, contractStage));
     }
 
     @PutMapping("/")
     public ResponseEntity<Object> updateContractStage(@RequestBody ContractStage contractStage){
-        return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, contractStageService.updateContactStage(contractStage));
+        return ResponseEntity.ok(contractStageService.updateContactStage(contractStage));
     }
 
     @DeleteMapping("/{contractStageId}")
     public ResponseEntity<Object> deleteContractStageById(@PathVariable("contractStageId") Integer contractStageId){
-        return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, contractStageService.deleteContractStageById(contractStageId));
+        contractStageService.deleteContractStageById(contractStageId);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/byContract/{contractId}")
     public ResponseEntity<Object> deleteContractStageByContractId(@PathVariable("contractId") Integer contractId){
-        return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, contractStageService.deleteAllContractStagesByContractId(contractId));
+        contractStageService.deleteAllContractStagesByContractId(contractId);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/getExcelFile/{contractId}")

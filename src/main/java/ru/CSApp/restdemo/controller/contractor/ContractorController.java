@@ -42,13 +42,13 @@ public class ContractorController {
 
     @DeleteMapping("/{contractId}")
     public ResponseEntity<Object> deleteContractor(@PathVariable("contractId") Integer contractId){
-        return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, contractorService.deleteContractorById(contractId));
+        contractorService.deleteContractorById(contractId);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/") // только для тестов
     public ResponseEntity<Object> deleteAllContractor(){
-        return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, contractorService.deleteAllContractors());
+        contractorService.deleteAllContractors();
+        return ResponseEntity.noContent().build();
     }
 }

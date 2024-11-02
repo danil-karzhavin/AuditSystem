@@ -23,14 +23,9 @@ public class ContractorService implements IContractorService {
 
     @Override
     public Contractor getContractorById(Integer contractorId) {
-        try{
-            if(contractorRepository.findById(contractorId).isEmpty())
-                throw new ContractorNotFoundException("There is no object with such Id");
-            return contractorRepository.findById(contractorId).get();
-        }
-        catch (ContractorNotFoundException ex){
-            return null;
-        }
+        if(contractorRepository.findById(contractorId).isEmpty())
+            throw new ContractorNotFoundException("Contract not found with such Id");
+        return contractorRepository.findById(contractorId).get();
     }
 
     @Override
@@ -46,21 +41,14 @@ public class ContractorService implements IContractorService {
     }
 
     @Override
-    public Integer deleteContractorById(Integer contractorId) {
-        try{
-            if(contractorRepository.findById(contractorId).isEmpty())
-                throw new ContractorNotFoundException("There is no object with such Id");
-            contractorRepository.deleteById(contractorId);
-            return contractorId;
-        }
-        catch(ContractorNotFoundException ex){
-            return null;
-        }
+    public void deleteContractorById(Integer contractorId) {
+        if(contractorRepository.findById(contractorId).isEmpty())
+            throw new ContractorNotFoundException("Contract not found with such Id");
+        contractorRepository.deleteById(contractorId);
     }
 
     @Override
-    public Integer deleteAllContractors() {
+    public void deleteAllContractors() {
         contractorRepository.deleteAll();
-        return 0;
     }
 }

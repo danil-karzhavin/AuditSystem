@@ -37,18 +37,13 @@ public class ContractWithContractorService implements IContractWithContractorSer
 
     @Override
     public ContractWithContractor getContractWithContractorById(Integer contractWitContractorId) {
-        try{
-            if(contractWithContractorRepository.findById(contractWitContractorId).isEmpty())
-                throw new ContractWithContractorNotFoundException("There is no object with such Id");
-            return contractWithContractorRepository.findById(contractWitContractorId).get();
-        }
-        catch (ContractWithContractorNotFoundException ex){
-            return null;
-        }
+        if(contractWithContractorRepository.findById(contractWitContractorId).isEmpty())
+            throw new ContractWithContractorNotFoundException("Not found sub contract with such Id");
+        return contractWithContractorRepository.findById(contractWitContractorId).get();
     }
 
     @Override
-    public Integer createContractWithContractorForContract(Integer contractorId, ContractWithContractor contractWithContractor) {
+    public ContractWithContractor createContractWithContractorForContract(Integer contractorId, ContractWithContractor contractWithContractor) {
         Contract contract = contractRepository.findById(contractWithContractor.getContractId()).get();
         contract.getSubContracts().add(contractWithContractor);
         contractWithContractor.setContract(contract);
@@ -60,27 +55,20 @@ public class ContractWithContractorService implements IContractWithContractorSer
         contractWithContractorRepository.save(contractWithContractor);
         contractRepository.save(contract);
         contractorRepository.save(contractor);
-        return contractorId;
+        return contractWithContractor;
     }
 
     @Override
-    public Integer deleteContractWithContractorById(Integer contractWithContractorId) {
-        try{
-            if(contractWithContractorRepository.findById(contractWithContractorId).isEmpty())
-                throw new ContractWithContractorNotFoundException("There is no object with such Id");
-            contractWithContractorRepository.deleteById(contractWithContractorId);
-            return contractWithContractorId;
-        }
-        catch(ContractWithContractorNotFoundException ex){
-            return null;
-        }
+    public void deleteContractWithContractorById(Integer contractWithContractorId) {
+        if(contractWithContractorRepository.findById(contractWithContractorId).isEmpty())
+            throw new ContractWithContractorNotFoundException("Not found sub contract with such Id");
+        contractWithContractorRepository.deleteById(contractWithContractorId);
     }
 
     @Override
-    public Integer deleteAllContractsWithContractorsByContractId(Integer contractId) {
+    public void deleteAllContractsWithContractorsByContractId(Integer contractId) {
         for (var obj : getContractsWithContractorsByContractId(contractId)){
             contractWithContractorRepository.deleteById(obj.getId());
         }
-        return 0;
     }
 }

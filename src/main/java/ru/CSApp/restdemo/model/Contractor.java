@@ -1,8 +1,7 @@
 package ru.CSApp.restdemo.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import ru.CSApp.restdemo.exception.contractor.Inn.InvalidInnFormat;
+import ru.CSApp.restdemo.exception.contractor.Inn.InvalidInnFormatException;
 
 import javax.persistence.*;
 
@@ -66,7 +65,7 @@ public class Contractor {
     public void setInn(String inn) {
         if(inn.length() == 12 && inn.chars().allMatch(Character::isDigit))
             this.inn = inn;
-        else throw new InvalidInnFormat("Неверный формат ИНН");
+        else throw new InvalidInnFormatException("Неверный формат ИНН");
     }
 
     public void setContractWithContractorId(Integer contractWithContractorId) {

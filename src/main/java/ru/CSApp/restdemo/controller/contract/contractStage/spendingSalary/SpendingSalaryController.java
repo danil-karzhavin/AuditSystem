@@ -21,37 +21,33 @@ public class SpendingSalaryController {
 
     @GetMapping("/{spendingSalaryId}")
     public ResponseEntity<Object> getSpendingSalaryById(@PathVariable("spendingSalaryId") Integer spendingSalaryId){
-        return ResponseHandler.responseBuilder("Requested Spending Salary Details are given here",
-                HttpStatus.OK, spendingSalaryService.getSpendingSalaryById(spendingSalaryId));
+        return ResponseEntity.ok(spendingSalaryService.getSpendingSalaryById(spendingSalaryId));
     }
 
     @GetMapping("/byContractStage/{contractStageId}")
     public ResponseEntity<Object> getSpendingSalariesByContractStageId(@PathVariable("contractStageId") Integer contractStageId){
-        return ResponseHandler.responseBuilder("Requested Spending Salary Details are given here",
-                HttpStatus.OK, spendingSalaryService.getSpendingSalariesByContractStageId(contractStageId));
+        return ResponseEntity.ok(spendingSalaryService.getSpendingSalariesByContractStageId(contractStageId));
     }
 
     @PostMapping("/newSpendingSalary/{contractStageId}")
-    public String createSpendingSalaryForContractStage(@PathVariable("contractStageId") Integer contractStageId, @RequestBody SpendingSalary spendingSalary){
-        spendingSalaryService.createSpendingSalaryForContractStage(contractStageId, spendingSalary);
-        return "Create Spending Salary For Contract Stage Successfully";
+    public ResponseEntity<Object> createSpendingSalaryForContractStage(@PathVariable("contractStageId") Integer contractStageId, @RequestBody SpendingSalary spendingSalary){
+        return ResponseEntity.ok(spendingSalaryService.createSpendingSalaryForContractStage(contractStageId, spendingSalary));
     }
 
     @PutMapping("/")
     public ResponseEntity<Object> updateSpendingSalary(@RequestBody SpendingSalary spendingSalary){
-        return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, spendingSalaryService.updateSpendingSalary(spendingSalary));
+        return ResponseEntity.ok(spendingSalaryService.updateSpendingSalary(spendingSalary));
     }
 
     @DeleteMapping("/{spendingSalaryId}")
     public ResponseEntity<Object> deleteSpendingSalaryById(@PathVariable("spendingSalaryId") Integer spendingSalaryId){
-        return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, spendingSalaryService.deleteSpendingSalaryById(spendingSalaryId));
+        spendingSalaryService.deleteSpendingSalaryById(spendingSalaryId);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/byContractStage/{contractStageId}")
     public ResponseEntity<Object> deleteAllSpendingSalariesByContractStageId(@PathVariable("contractStageId") Integer contractStageId){
-        return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, spendingSalaryService.deleteAllSpendingSalariesByContractStageId(contractStageId));
+        spendingSalaryService.deleteAllSpendingSalariesByContractStageId(contractStageId);
+        return ResponseEntity.noContent().build();
     }
 }

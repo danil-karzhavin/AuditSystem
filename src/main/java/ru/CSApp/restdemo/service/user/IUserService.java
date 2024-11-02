@@ -13,6 +13,7 @@ public interface IUserService {
 
     public Integer createUser(User user);
     public User updateUser(User user);
-    public Integer deleteUserById(Integer Id);
+
+    public void deleteUserById(Integer Id);
 
 }

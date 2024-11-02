@@ -18,31 +18,28 @@ public class contractWithContractorController {
 
     @GetMapping("byContract/{contractId}")
     public ResponseEntity<Object> getAllSubContractsByContractId(@PathVariable("contractId") Integer contractId){
-        return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, subContractService.getContractsWithContractorsByContractId(contractId));
+        return ResponseEntity.ok(subContractService.getContractsWithContractorsByContractId(contractId));
     }
 
     @GetMapping("/{contractWithContractorId}")
     public ResponseEntity<Object> getSubContractById(@PathVariable("contractWithContractorId") Integer contractWithContractorId){
-        return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, subContractService.getContractWithContractorById(contractWithContractorId));
+        return ResponseEntity.ok(subContractService.getContractWithContractorById(contractWithContractorId));
     }
 
     @PostMapping("/{contractorId}")
     public ResponseEntity<Object> createSubContract(@PathVariable("contractorId") Integer contractorId, @RequestBody ContractWithContractor contractWithContractor){
-        return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, subContractService.createContractWithContractorForContract(contractorId, contractWithContractor));
+        return ResponseEntity.ok(subContractService.createContractWithContractorForContract(contractorId, contractWithContractor));
     }
 
     @DeleteMapping("/{contractWithContractorId}")
     public ResponseEntity<Object> deleteContractWithContractorById(@PathVariable("contractWithContractorId") Integer contractWithContractorId){
-        return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, subContractService.deleteContractWithContractorById(contractWithContractorId));
+        subContractService.deleteContractWithContractorById(contractWithContractorId);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/byContract/{contractId}")
     public ResponseEntity<Object> deleteAllContractsWithContractorsByContractId(@PathVariable("contractId") Integer contractId){
-        return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, subContractService.deleteAllContractsWithContractorsByContractId(contractId));
+        subContractService.deleteAllContractsWithContractorsByContractId(contractId);
+        return ResponseEntity.noContent().build();
     }
 }

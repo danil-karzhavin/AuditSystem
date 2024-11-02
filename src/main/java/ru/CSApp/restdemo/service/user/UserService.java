@@ -22,43 +22,25 @@ public class UserService implements IUserService {
 
     @Override
     public User getUserById(Integer userId) {
-        try{
-            if(userRepository.findById(userId).isEmpty())
-                throw new UserNotFoundException("There is no object with such Id");
-            return userRepository.findById(userId).get();
-        }
-        catch (UserNotFoundException ex){
-            ex.printStackTrace();
-            return null;
-        }
+        if(userRepository.findById(userId).isEmpty())
+            throw new UserNotFoundException("User not found with such Id");
+        return userRepository.findById(userId).get();
     }
 
     @Override
     public User getUserByName(String name) {
-        try{
-            User user = userRepository.findByUsername(name);
-            if(user == null)
-                throw new UserNotFoundException("There is no user with such name");
-            return user;
-        }
-        catch(UserNotFoundException ex){
-            ex.printStackTrace();
-            return null;
-        }
+        User user = userRepository.findByUsername(name);
+        if(user == null)
+            throw new UserNotFoundException("User not found with such name");
+        return user;
     }
 
     @Override
     public User getUserByNameAndPassword(String name, String password) {
-        try{
-            User user = userRepository.findByUsernameAndPassword(name, password);
-            if(user == null)
-                throw new UserNotFoundException("There is no user with such name");
-            return user;
-        }
-        catch(UserNotFoundException ex){
-            ex.printStackTrace();
-            return null;
-        }
+        User user = userRepository.findByUsernameAndPassword(name, password);
+        if(user == null)
+            throw new UserNotFoundException("User not found with such name and password");
+        return user;
     }
 
     @Override
@@ -74,16 +56,9 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Integer deleteUserById(Integer userId) {
-        try{
-            if(userRepository.findById(userId).isEmpty())
-                throw new UserNotFoundException("There is no object with such Id");
-            userRepository.deleteById(userId);
-            return userId;
-        }
-        catch(UserNotFoundException ex){
-            ex.printStackTrace();
-            return null;
-        }
+    public void deleteUserById(Integer userId) {
+        if(userRepository.findById(userId).isEmpty())
+            throw new UserNotFoundException("User not found with such Id");
+        userRepository.deleteById(userId);
     }
 }

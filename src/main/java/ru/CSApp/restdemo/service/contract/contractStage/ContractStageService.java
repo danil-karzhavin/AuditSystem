@@ -1,9 +1,7 @@
 package ru.CSApp.restdemo.service.contract.contractStage;
 
 import org.springframework.stereotype.Service;
-import ru.CSApp.restdemo.exception.contract.ContractNotFoundException;
 import ru.CSApp.restdemo.exception.contract.contractStage.ContractStageNotFoundException;
-import ru.CSApp.restdemo.exception.contract.contractStage.spendingSalary.SpendingSalaryNotFoundException;
 import ru.CSApp.restdemo.model.Contract;
 import ru.CSApp.restdemo.model.ContractStage;
 import ru.CSApp.restdemo.model.SpendingMaterial;
@@ -24,14 +22,9 @@ public class ContractStageService implements IContractStageService{
 
     @Override
     public ContractStage getContractStageById(Integer contractStageId){
-        try{
-            if(contractStageRepository.findById(contractStageId).isEmpty())
-                throw new ContractStageNotFoundException("There is no object with such Id");
-            return contractStageRepository.findById(contractStageId).get();
-        }
-        catch (ContractStageNotFoundException ex){
-            return null;
-        }
+        if(contractStageRepository.findById(contractStageId).isEmpty())
+            throw new ContractStageNotFoundException("There is no object with such Id");
+        return contractStageRepository.findById(contractStageId).get();
     }
 
     @Override
@@ -41,7 +34,7 @@ public class ContractStageService implements IContractStageService{
     }
 
     @Override
-    public void createContractStageForContract(Integer contractId, ContractStage contractStage){
+    public ContractStage createContractStageForContract(Integer contractId, ContractStage contractStage){
         Contract contract = contractRepository.findById(contractId).get();
         contractStage.setContract(contract); // устанавливаем связи
         contractStage.setContractId(contractId);
@@ -59,14 +52,17 @@ public class ContractStageService implements IContractStageService{
         contractStageRepository.save(contractStage);
         contract.getStages().add(contractStage); // добавляем объект в коллекцию
         contractRepository.save(contract); // Поскольку каскадные операции включены, ContractStage будет автоматически сохранен
+        return contractStage;
     }
 
-    @Override
-    public void deleteContractStageFromContract(Integer contractId, ContractStage contractStage) {
-        Contract contract = contractRepository.findById(contractId).get();
-        contract.getStages().remove(contractStage);
-        contractRepository.save(contract); // ContractStage будет автоматически удален благодаря orphanRemoval = true
-    }
+//    @Override
+//    public void deleteContractStageByContractId(Integer contractId, ContractStage contractStage) {
+//        if (contractRepository.findById(contractId).isEmpty())
+//            throw new ContractStageNotFoundException("Contract Stage not found with such id");
+//        Contract contract = contractRepository.findById(contractId).get();
+//        contract.getStages().remove(contractStage);
+//        contractRepository.save(contract); // ContractStage будет автоматически удален благодаря orphanRemoval = true
+//    }
 
     @Override
     public ContractStage updateContactStage(ContractStage contractStage) {
@@ -75,23 +71,16 @@ public class ContractStageService implements IContractStageService{
     }
 
     @Override
-    public Integer deleteContractStageById(Integer contractStageId) {
-        try{
-            if(contractStageRepository.findById(contractStageId).isEmpty())
-                throw new ContractStageNotFoundException("There is no object with such Id");
-            contractStageRepository.deleteById(contractStageId);
-            return contractStageId;
-        }
-        catch(ContractStageNotFoundException ex){
-            return null;
-        }
+    public void deleteContractStageById(Integer contractStageId) {
+        if(contractStageRepository.findById(contractStageId).isEmpty())
+            throw new ContractStageNotFoundException("Contract Stage not found with such id");
+        contractStageRepository.deleteById(contractStageId);
     }
 
     @Override
-    public Integer deleteAllContractStagesByContractId(Integer contractId) {
+    public void deleteAllContractStagesByContractId(Integer contractId) {
         for(var obj : getContractStagesByContractId(contractId)){
             contractStageRepository.deleteById(obj.getId());
         }
-        return 0;
     }
 }
