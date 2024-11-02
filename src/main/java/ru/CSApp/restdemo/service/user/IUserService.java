@@ -1,7 +1,7 @@
 package ru.CSApp.restdemo.service.user;
 
-import org.springframework.security.core.userdetails.UserDetails;
-import ru.CSApp.restdemo.model.User;
+import ru.CSApp.restdemo.model.user.User;
+import ru.CSApp.restdemo.model.user.UserDto;
 
 import java.util.List;
 
@@ -11,8 +11,8 @@ public interface IUserService {
     public User getUserByName(String name);
     public User getUserByNameAndPassword(String name, String password);
 
-    public Integer createUser(User user);
-    public User updateUser(User user);
+    public User createUser(UserDto userDto);
+    public User updateUser(UserDto userDto);
 
     public void deleteUserById(Integer Id);
 

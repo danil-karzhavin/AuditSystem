@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/users/authenticate/**").permitAll() // Разрешает доступ ко всем запросам, начинающимся с
+                .antMatchers("**").permitAll() // Разрешает доступ ко всем запросам, начинающимся с
                 // `/auth/`, без аутентификации. Это обычно означает, что конечные точки для регистрации и входа в
                 // систему не требуют аутентификации
                 .anyRequest().authenticated() // Все остальные запросы требуют аутентификации. Это означает, что после

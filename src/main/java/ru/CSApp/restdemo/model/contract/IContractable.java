@@ -1,10 +1,6 @@
-package ru.CSApp.restdemo.model;
+package ru.CSApp.restdemo.model.contract;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.time.LocalDate;
-import java.util.List;
 
 public interface IContractable {
     public Integer getId();

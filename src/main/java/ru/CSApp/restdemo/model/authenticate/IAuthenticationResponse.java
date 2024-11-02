@@ -1,4 +1,4 @@
-package ru.CSApp.restdemo.model.response;
+package ru.CSApp.restdemo.model.authenticate;
 
 public interface IAuthenticationResponse {
     String getJwt();

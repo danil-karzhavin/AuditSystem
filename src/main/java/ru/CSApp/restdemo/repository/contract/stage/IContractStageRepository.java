@@ -1,6 +1,6 @@
 package ru.CSApp.restdemo.repository.contract.stage;
 
-import ru.CSApp.restdemo.model.ContractStage;
+import ru.CSApp.restdemo.model.contract.contractStage.ContractStage;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

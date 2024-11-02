@@ -1,4 +1,4 @@
-package ru.CSApp.restdemo.model.request;
+package ru.CSApp.restdemo.model.authenticate;
 
 public class AuthenticationRequest implements IAuthenticationRequest {
     String username;

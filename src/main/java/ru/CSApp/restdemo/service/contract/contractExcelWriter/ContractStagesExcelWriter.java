@@ -3,7 +3,7 @@ package ru.CSApp.restdemo.service.contract.contractExcelWriter;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.scheduling.annotation.Async;
-import ru.CSApp.restdemo.model.ContractStage;
+import ru.CSApp.restdemo.model.contract.contractStage.ContractStage;
 
 import java.io.FileOutputStream;
 import java.io.IOException;

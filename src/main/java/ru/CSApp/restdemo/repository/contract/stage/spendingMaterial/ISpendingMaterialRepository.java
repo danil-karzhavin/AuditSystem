@@ -1,7 +1,7 @@
 package ru.CSApp.restdemo.repository.contract.stage.spendingMaterial;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.CSApp.restdemo.model.SpendingMaterial;
+import ru.CSApp.restdemo.model.contract.contractStage.spendingMaterial.SpendingMaterial;
 
 import java.util.List;
 

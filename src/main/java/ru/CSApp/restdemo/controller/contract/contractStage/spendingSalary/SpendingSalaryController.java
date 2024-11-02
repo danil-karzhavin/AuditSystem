@@ -1,10 +1,9 @@
 package ru.CSApp.restdemo.controller.contract.contractStage.spendingSalary;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.CSApp.restdemo.model.SpendingSalary;
-import ru.CSApp.restdemo.response.ResponseHandler;
+import ru.CSApp.restdemo.model.contract.contractStage.spendingSalary.SpendingSalary;
+import ru.CSApp.restdemo.model.contract.contractStage.spendingSalary.SpendingSalaryDto;
 import ru.CSApp.restdemo.service.contract.contractStage.IContractStageService;
 import ru.CSApp.restdemo.service.contract.contractStage.spendingSalary.ISpendingSalaryService;
 
@@ -30,13 +29,13 @@ public class SpendingSalaryController {
     }
 
     @PostMapping("/newSpendingSalary/{contractStageId}")
-    public ResponseEntity<Object> createSpendingSalaryForContractStage(@PathVariable("contractStageId") Integer contractStageId, @RequestBody SpendingSalary spendingSalary){
-        return ResponseEntity.ok(spendingSalaryService.createSpendingSalaryForContractStage(contractStageId, spendingSalary));
+    public ResponseEntity<Object> createSpendingSalaryForContractStage(@PathVariable("contractStageId") Integer contractStageId, @RequestBody SpendingSalaryDto spendingSalaryDto){
+        return ResponseEntity.ok(spendingSalaryService.createSpendingSalaryForContractStage(contractStageId, spendingSalaryDto));
     }
 
     @PutMapping("/")
-    public ResponseEntity<Object> updateSpendingSalary(@RequestBody SpendingSalary spendingSalary){
-        return ResponseEntity.ok(spendingSalaryService.updateSpendingSalary(spendingSalary));
+    public ResponseEntity<Object> updateSpendingSalary(@RequestBody SpendingSalaryDto spendingSalaryDto){
+        return ResponseEntity.ok(spendingSalaryService.updateSpendingSalary(spendingSalaryDto));
     }
 
     @DeleteMapping("/{spendingSalaryId}")

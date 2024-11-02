@@ -1,10 +1,9 @@
 package ru.CSApp.restdemo.controller.contract.contractWithContractor;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.CSApp.restdemo.model.ContractWithContractor;
-import ru.CSApp.restdemo.response.ResponseHandler;
+import ru.CSApp.restdemo.model.contract.contractWithContractor.ContractWithContractor;
+import ru.CSApp.restdemo.model.contract.contractWithContractor.ContractWithContractorDto;
 import ru.CSApp.restdemo.service.contract.contractWithContractor.IContractWithContractorService;
 
 @RestController
@@ -27,8 +26,8 @@ public class contractWithContractorController {
     }
 
     @PostMapping("/{contractorId}")
-    public ResponseEntity<Object> createSubContract(@PathVariable("contractorId") Integer contractorId, @RequestBody ContractWithContractor contractWithContractor){
-        return ResponseEntity.ok(subContractService.createContractWithContractorForContract(contractorId, contractWithContractor));
+    public ResponseEntity<Object> createSubContract(@PathVariable("contractorId") Integer contractorId, @RequestBody ContractWithContractorDto contractWithContractorDto){
+        return ResponseEntity.ok(subContractService.createContractWithContractorForContract(contractorId, contractWithContractorDto));
     }
 
     @DeleteMapping("/{contractWithContractorId}")

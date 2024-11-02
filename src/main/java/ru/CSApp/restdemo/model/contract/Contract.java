@@ -1,6 +1,8 @@
-package ru.CSApp.restdemo.model;
+package ru.CSApp.restdemo.model.contract;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import ru.CSApp.restdemo.model.contract.contractStage.ContractStage;
+import ru.CSApp.restdemo.model.contract.contractWithContractor.ContractWithContractor;
 
 import javax.persistence.*;
 import java.time.LocalDate;

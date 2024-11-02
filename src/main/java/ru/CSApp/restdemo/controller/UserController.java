@@ -2,9 +2,10 @@ package ru.CSApp.restdemo.controller;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetails;
-import ru.CSApp.restdemo.model.User;
-import ru.CSApp.restdemo.model.request.AuthenticationRequest;
-import ru.CSApp.restdemo.model.response.AuthenticationResponse;
+import ru.CSApp.restdemo.model.user.User;
+import ru.CSApp.restdemo.model.authenticate.AuthenticationRequest;
+import ru.CSApp.restdemo.model.authenticate.AuthenticationResponse;
+import ru.CSApp.restdemo.model.user.UserDto;
 import ru.CSApp.restdemo.security.JwtUtil;
 import ru.CSApp.restdemo.service.user.IUserService;
 import org.springframework.http.ResponseEntity;
@@ -34,14 +35,14 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Object> createUser(@RequestBody User user)
+    public ResponseEntity<Object> createUser(@RequestBody UserDto userDto)
     {
-        return ResponseEntity.ok(userService.createUser(user));
+        return ResponseEntity.ok(userService.createUser(userDto));
     }
 
     @PutMapping("/")
-    public ResponseEntity<Object> updateUser(@RequestBody User user){
-        return ResponseEntity.ok(userService.updateUser(user));
+    public ResponseEntity<Object> updateUser(@RequestBody UserDto userDto){
+        return ResponseEntity.ok(userService.updateUser(userDto));
     }
 
     @DeleteMapping("/{userId}")

@@ -1,4 +1,4 @@
-package ru.CSApp.restdemo.model;
+package ru.CSApp.restdemo.model.user;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -17,6 +17,7 @@ public class User implements UserDetails {
     @Column(name = "name", nullable = false)
     String username;
     String surname;
+    @Column(name = "password", nullable = false)
     String password;
     LocalDate ExpirationDate;
 
@@ -90,7 +91,11 @@ public class User implements UserDetails {
         this.surname = surname;
     }
 
-//    - Возвращает коллекцию полномочий (прав), которые присвоены пользователю.
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    //    - Возвращает коллекцию полномочий (прав), которые присвоены пользователю.
 //    - Каждый элемент представляет собой объект, реализующий интерфейс `GrantedAuthority`.
 //    - Полномочия могут быть представлены, например, в виде ролей (например, `ROLE_USER`, `ROLE_ADMIN`).
     @Override

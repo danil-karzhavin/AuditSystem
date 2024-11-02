@@ -1,10 +1,9 @@
 package ru.CSApp.restdemo.controller.contract.contractStage.spendingMaterial;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.CSApp.restdemo.model.SpendingMaterial;
-import ru.CSApp.restdemo.response.ResponseHandler;
+import ru.CSApp.restdemo.model.contract.contractStage.spendingMaterial.SpendingMaterial;
+import ru.CSApp.restdemo.model.contract.contractStage.spendingMaterial.SpendingMaterialDto;
 import ru.CSApp.restdemo.service.contract.contractStage.spendingMaterial.ISpendingMaterialService;
 
 @RestController
@@ -27,13 +26,13 @@ public class SpendingMaterialController {
     }
 
     @PostMapping("/newSpendingMaterial/{contractStageId}")
-    public ResponseEntity<Object> createSpendingMaterialForContractStage(@PathVariable("contractStageId") Integer contractStageId, @RequestBody SpendingMaterial spendingMaterial){
-        return ResponseEntity.ok(spendingMaterialService.createSpendingMaterialForContractStage(contractStageId, spendingMaterial));
+    public ResponseEntity<Object> createSpendingMaterialForContractStage(@PathVariable("contractStageId") Integer contractStageId, @RequestBody SpendingMaterialDto spendingMaterialDto){
+        return ResponseEntity.ok(spendingMaterialService.createSpendingMaterialForContractStage(contractStageId, spendingMaterialDto));
     }
 
     @PutMapping("/")
-    public ResponseEntity<Object> updateSpendingMaterial(@RequestBody SpendingMaterial spendingMaterial){
-        return ResponseEntity.ok(spendingMaterialService.updateSpendingMaterial(spendingMaterial));
+    public ResponseEntity<Object> updateSpendingMaterial(@RequestBody SpendingMaterialDto spendingMaterialDto){
+        return ResponseEntity.ok(spendingMaterialService.updateSpendingMaterial(spendingMaterialDto));
     }
 
     @DeleteMapping("/{spendingMaterialId}")

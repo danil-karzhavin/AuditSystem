@@ -1,6 +1,6 @@
 package ru.CSApp.restdemo.repository.contract;
 
-import ru.CSApp.restdemo.model.Contract;
+import ru.CSApp.restdemo.model.contract.Contract;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;

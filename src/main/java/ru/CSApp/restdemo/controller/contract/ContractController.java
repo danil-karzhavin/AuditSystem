@@ -1,14 +1,14 @@
 package ru.CSApp.restdemo.controller.contract;
 
 import ru.CSApp.restdemo.exception.contract.ContractNotFoundException;
-import ru.CSApp.restdemo.model.Contract;
-import ru.CSApp.restdemo.response.ResponseHandler;
+import ru.CSApp.restdemo.model.contract.Contract;
+import ru.CSApp.restdemo.model.contract.ContractDto;
 import ru.CSApp.restdemo.service.contract.IContractService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.CSApp.restdemo.service.contract.contractExcelWriter.ExportExcelService;
 
+import javax.persistence.Entity;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
@@ -31,7 +31,7 @@ public class ContractController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<Object> getAllContracts() {
+    public ResponseEntity<List<Contract>> getAllContracts() {
         return ResponseEntity.ok(contractService.getAllContracts());
     }
 
@@ -41,15 +41,15 @@ public class ContractController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Object> createContract(@RequestBody Contract contract)
+    public ResponseEntity<Object> createContract(@RequestBody ContractDto contractDto)
     {
-        return ResponseEntity.ok(contractService.createContract(contract));
+        return ResponseEntity.ok(contractService.createContract(contractDto));
     }
 
     @PutMapping("/")
-    public ResponseEntity<Object> updateContract(@RequestBody Contract contract)
+    public ResponseEntity<Object> updateContract(@RequestBody ContractDto contractDto)
     {
-        return ResponseEntity.ok(contractService.updateContract(contract));
+        return ResponseEntity.ok(contractService.updateContract(contractDto));
     }
 
     @DeleteMapping("/{contractId}")

@@ -2,20 +2,24 @@ package ru.CSApp.restdemo.service.contract.contractStage.spendingMaterial;
 
 import org.springframework.stereotype.Service;
 import ru.CSApp.restdemo.exception.contract.contractStage.spendingMaterial.SpendingMaterialNotFoundException;
-import ru.CSApp.restdemo.model.ContractStage;
-import ru.CSApp.restdemo.model.SpendingMaterial;
+import ru.CSApp.restdemo.model.contract.contractStage.ContractStage;
+import ru.CSApp.restdemo.model.contract.contractStage.spendingMaterial.SpendingMaterial;
+import ru.CSApp.restdemo.model.contract.contractStage.spendingMaterial.SpendingMaterialDto;
 import ru.CSApp.restdemo.repository.contract.stage.IContractStageRepository;
 import ru.CSApp.restdemo.repository.contract.stage.spendingMaterial.ISpendingMaterialRepository;
+import ru.CSApp.restdemo.service.contract.contractStage.IContractStageService;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class SpendingMaterialService implements ISpendingMaterialService {
     ISpendingMaterialRepository spendingMaterialRepository;
-    IContractStageRepository contractStageRepository;
+    IContractStageService contractStageService;
 
-    public SpendingMaterialService(ISpendingMaterialRepository spendingMaterialRepository, IContractStageRepository contractStageRepository) {
+    public SpendingMaterialService(ISpendingMaterialRepository spendingMaterialRepository, IContractStageService contractStageService) {
         this.spendingMaterialRepository = spendingMaterialRepository;
-        this.contractStageRepository = contractStageRepository;
+        this.contractStageService = contractStageService;
     }
 
     @Override
@@ -32,18 +36,28 @@ public class SpendingMaterialService implements ISpendingMaterialService {
     }
 
     @Override
-    public SpendingMaterial createSpendingMaterialForContractStage(Integer contractStageId, SpendingMaterial spendingMaterial) {
-        ContractStage contractStage = contractStageRepository.findById(contractStageId).get();
+    public SpendingMaterial createSpendingMaterialForContractStage(Integer contractStageId, SpendingMaterialDto spendingMaterialDto) {
+        SpendingMaterial spendingMaterial = new SpendingMaterial();
+
+        Optional.ofNullable(spendingMaterialDto.getName()).ifPresent(spendingMaterial::setName);
+        Optional.ofNullable(spendingMaterialDto.getMonetaryValue()).ifPresent(spendingMaterial::setMonetaryValue);
+
+        ContractStage contractStage = contractStageService.getContractStageById(contractStageId);
         spendingMaterial.setContractStage(contractStage);
         spendingMaterial.setContractStageId(contractStageId);
 
         contractStage.getSpendingMaterials().add(spendingMaterial);
-        contractStageRepository.save(contractStage);
+        contractStageService.save(contractStage);
         return spendingMaterial;
     }
 
     @Override
-    public SpendingMaterial updateSpendingMaterial(SpendingMaterial spendingMaterial) {
+    public SpendingMaterial updateSpendingMaterial(SpendingMaterialDto spendingMaterialDto) {
+        SpendingMaterial spendingMaterial = getSpendingMaterialById(spendingMaterialDto.getId());
+
+        Optional.ofNullable(spendingMaterialDto.getName()).ifPresent(spendingMaterial::setName);
+        Optional.ofNullable(spendingMaterialDto.getMonetaryValue()).ifPresent(spendingMaterial::setMonetaryValue);
+
         spendingMaterialRepository.save(spendingMaterial);
         return spendingMaterial;
     }

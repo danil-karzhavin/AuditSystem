@@ -1,6 +1,10 @@
-package ru.CSApp.restdemo.model;
+package ru.CSApp.restdemo.model.contract.contractWithContractor;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import ru.CSApp.restdemo.model.contract.IContractable;
+import ru.CSApp.restdemo.model.contract.Contract;
+import ru.CSApp.restdemo.model.contract.ContractType;
+import ru.CSApp.restdemo.model.contractor.Contractor;
 
 import javax.persistence.*;
 import java.time.LocalDate;

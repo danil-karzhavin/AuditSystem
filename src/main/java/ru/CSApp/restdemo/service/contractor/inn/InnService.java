@@ -1,7 +1,7 @@
 //package ru.CSApp.restdemo.service.contractor.inn;
 //
 //import org.springframework.stereotype.Service;
-//import ru.CSApp.restdemo.model.Contractor;
+//import ru.CSApp.restdemo.model.Contractor.Contractor;
 //import ru.CSApp.restdemo.model.Inn;
 //import ru.CSApp.restdemo.repository.contractor.IContractorRepository;
 //import ru.CSApp.restdemo.repository.contractor.inn.IInnRepository;

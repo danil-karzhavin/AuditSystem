@@ -2,7 +2,7 @@ package ru.CSApp.restdemo.service.contract.contractExcelWriter;
 
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.scheduling.annotation.Async;
-import ru.CSApp.restdemo.model.Contract;
+import ru.CSApp.restdemo.model.contract.Contract;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,8 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import ru.CSApp.restdemo.model.ContractStage;
-import ru.CSApp.restdemo.model.IContractable;
+import ru.CSApp.restdemo.model.contract.IContractable;
 
 public class ContractExcelWriter {
     @Async

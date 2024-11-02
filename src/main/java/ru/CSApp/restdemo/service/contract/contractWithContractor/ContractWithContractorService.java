@@ -2,25 +2,28 @@ package ru.CSApp.restdemo.service.contract.contractWithContractor;
 
 import org.springframework.stereotype.Service;
 import ru.CSApp.restdemo.exception.contract.contractWithContractor.ContractWithContractorNotFoundException;
-import ru.CSApp.restdemo.model.Contract;
-import ru.CSApp.restdemo.model.ContractWithContractor;
-import ru.CSApp.restdemo.model.Contractor;
-import ru.CSApp.restdemo.repository.contract.IContractRepository;
+import ru.CSApp.restdemo.model.contract.Contract;
+import ru.CSApp.restdemo.model.contract.contractWithContractor.ContractWithContractor;
+import ru.CSApp.restdemo.model.contract.contractWithContractor.ContractWithContractorDto;
+import ru.CSApp.restdemo.model.contractor.Contractor;
 import ru.CSApp.restdemo.repository.contractor.IContractWithContractorRepository;
 import ru.CSApp.restdemo.repository.contractor.IContractorRepository;
+import ru.CSApp.restdemo.service.contract.IContractService;
+import ru.CSApp.restdemo.service.contractor.IContractorService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ContractWithContractorService implements IContractWithContractorService{
     IContractWithContractorRepository contractWithContractorRepository;
-    IContractRepository contractRepository;
-    IContractorRepository contractorRepository;
+    IContractService contractService;
+    IContractorService contractorService;
 
-    public ContractWithContractorService(IContractWithContractorRepository contractWithContractorRepository, IContractRepository contractRepository, IContractorRepository contractorRepository) {
+    public ContractWithContractorService(IContractWithContractorRepository contractWithContractorRepository, IContractService contractService, IContractorService contractorService) {
         this.contractWithContractorRepository = contractWithContractorRepository;
-        this.contractRepository = contractRepository;
-        this.contractorRepository = contractorRepository;
+        this.contractService = contractService;
+        this.contractorService = contractorService;
     }
 
     @Override
@@ -43,18 +46,30 @@ public class ContractWithContractorService implements IContractWithContractorSer
     }
 
     @Override
-    public ContractWithContractor createContractWithContractorForContract(Integer contractorId, ContractWithContractor contractWithContractor) {
-        Contract contract = contractRepository.findById(contractWithContractor.getContractId()).get();
+    public ContractWithContractor createContractWithContractorForContract(Integer contractorId, ContractWithContractorDto contractWithContractorDto) {
+        ContractWithContractor contractWithContractor = new ContractWithContractor();
+
+        Optional.ofNullable(contractWithContractorDto.getName()).ifPresent(contractWithContractor::setName);
+        Optional.ofNullable(contractWithContractorDto.getType()).ifPresent(contractWithContractor::setType);
+        Optional.ofNullable(contractWithContractorDto.getPlanStartDate()).ifPresent(contractWithContractor::setPlanStartDate);
+        Optional.ofNullable(contractWithContractorDto.getPlanEndDate()).ifPresent(contractWithContractor::setPlanEndDate);
+        Optional.ofNullable(contractWithContractorDto.getActualStartDate()).ifPresent(contractWithContractor::setActualStartDate);
+        Optional.ofNullable(contractWithContractorDto.getActualEndDate()).ifPresent(contractWithContractor::setActualEndDate);
+        Optional.ofNullable(contractWithContractorDto.getMonetaryValue()).ifPresent(contractWithContractor::setMonetaryValue);
+        Optional.ofNullable(contractWithContractorDto.getContractId()).ifPresent(contractWithContractor::setContractId);
+
+
+        Contract contract = contractService.getContractById(contractWithContractor.getContractId());
         contract.getSubContracts().add(contractWithContractor);
         contractWithContractor.setContract(contract);
 
-        Contractor contractor = contractorRepository.findById(contractorId).get();
+        Contractor contractor = contractorService.getContractorById(contractorId);
         contractor.setContractWithContractor(contractWithContractor);
         contractWithContractor.setContractor(contractor);
 
         contractWithContractorRepository.save(contractWithContractor);
-        contractRepository.save(contract);
-        contractorRepository.save(contractor);
+        contractService.save(contract);
+        contractorService.save(contractor);
         return contractWithContractor;
     }
 

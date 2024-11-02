@@ -1,6 +1,7 @@
-package ru.CSApp.restdemo.model;
+package ru.CSApp.restdemo.model.contract.contractStage.spendingMaterial;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import ru.CSApp.restdemo.model.contract.contractStage.ContractStage;
 
 import javax.persistence.*;
 

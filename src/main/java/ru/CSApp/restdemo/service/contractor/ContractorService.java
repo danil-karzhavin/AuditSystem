@@ -2,10 +2,12 @@ package ru.CSApp.restdemo.service.contractor;
 
 import org.springframework.stereotype.Service;
 import ru.CSApp.restdemo.exception.contractor.ContractorNotFoundException;
-import ru.CSApp.restdemo.model.Contractor;
+import ru.CSApp.restdemo.model.contractor.Contractor;
+import ru.CSApp.restdemo.model.contractor.ContractorDto;
 import ru.CSApp.restdemo.repository.contractor.IContractorRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ContractorService implements IContractorService {
@@ -24,18 +26,30 @@ public class ContractorService implements IContractorService {
     @Override
     public Contractor getContractorById(Integer contractorId) {
         if(contractorRepository.findById(contractorId).isEmpty())
-            throw new ContractorNotFoundException("Contract not found with such Id");
+            throw new ContractorNotFoundException("Not found contractor with such Id");
         return contractorRepository.findById(contractorId).get();
     }
 
     @Override
-    public Contractor createContractor(Contractor contractor) {
+    public Contractor createContractor(ContractorDto contractorDto) {
+        Contractor contractor = new Contractor();
+
+        Optional.ofNullable(contractorDto.getName()).ifPresent(contractor::setName);
+        Optional.ofNullable(contractorDto.getAddress()).ifPresent(contractor::setAddress);
+        Optional.ofNullable(contractorDto.getInn()).ifPresent(contractor::setInn);
+
         contractorRepository.save(contractor);
         return contractor;
     }
 
     @Override
-    public Contractor updateContractor(Contractor contractor) {
+    public Contractor updateContractor(ContractorDto contractorDto) {
+        Contractor contractor = getContractorById(contractorDto.getId());
+
+        Optional.ofNullable(contractorDto.getName()).ifPresent(contractor::setName);
+        Optional.ofNullable(contractorDto.getAddress()).ifPresent(contractor::setAddress);
+        Optional.ofNullable(contractorDto.getInn()).ifPresent(contractor::setInn);
+
         contractorRepository.save(contractor);
         return contractor;
     }
@@ -43,12 +57,17 @@ public class ContractorService implements IContractorService {
     @Override
     public void deleteContractorById(Integer contractorId) {
         if(contractorRepository.findById(contractorId).isEmpty())
-            throw new ContractorNotFoundException("Contract not found with such Id");
+            throw new ContractorNotFoundException("Not found contractor with such Id");
         contractorRepository.deleteById(contractorId);
     }
 
     @Override
     public void deleteAllContractors() {
         contractorRepository.deleteAll();
+    }
+
+    @Override
+    public void save(Contractor contractor) {
+        contractorRepository.save(contractor);
     }
 }

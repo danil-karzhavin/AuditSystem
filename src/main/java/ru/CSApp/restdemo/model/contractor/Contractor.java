@@ -1,7 +1,8 @@
-package ru.CSApp.restdemo.model;
+package ru.CSApp.restdemo.model.contractor;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import ru.CSApp.restdemo.exception.contractor.Inn.InvalidInnFormatException;
+import ru.CSApp.restdemo.model.contract.contractWithContractor.ContractWithContractor;
 
 import javax.persistence.*;
 
@@ -14,9 +15,6 @@ public class Contractor {
     String name;
     String address;
 
-//    @OneToOne(mappedBy = "contractor")
-//    @JsonManagedReference
-//    Inn inn;
     String inn;
 
     @Column(name = "contractWithContractorId", insertable = false, updatable = false)

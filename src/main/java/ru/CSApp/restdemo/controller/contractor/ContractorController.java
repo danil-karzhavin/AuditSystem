@@ -3,7 +3,8 @@ package ru.CSApp.restdemo.controller.contractor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.CSApp.restdemo.model.Contractor;
+import ru.CSApp.restdemo.model.contractor.Contractor;
+import ru.CSApp.restdemo.model.contractor.ContractorDto;
 import ru.CSApp.restdemo.response.ResponseHandler;
 import ru.CSApp.restdemo.service.contractor.IContractorService;
 
@@ -18,26 +19,22 @@ public class ContractorController {
 
     @GetMapping("/")
     public ResponseEntity<Object> getAllContractors(){
-        return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, contractorService.getAllContractors());
+        return ResponseEntity.ok(contractorService.getAllContractors());
     }
 
     @GetMapping("/{contractorId}")
     public ResponseEntity<Object> getContractorById(@PathVariable("contractorId") Integer contractorId){
-        return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, contractorService.getContractorById(contractorId));
+        return ResponseEntity.ok(contractorService.getContractorById(contractorId));
     }
 
     @PostMapping("/")
-    public ResponseEntity<Object> createContractor(@RequestBody Contractor contractor){
-        return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, contractorService.createContractor(contractor));
+    public ResponseEntity<Object> createContractor(@RequestBody ContractorDto contractorDto){
+        return ResponseEntity.ok(contractorService.createContractor(contractorDto));
     }
 
     @PutMapping("/")
-    public ResponseEntity<Object> updateContractor(@RequestBody Contractor contractor){
-        return ResponseHandler.responseBuilder("",
-                HttpStatus.OK, contractorService.updateContractor(contractor));
+    public ResponseEntity<Object> updateContractor(@RequestBody ContractorDto contractorDto){
+        return ResponseEntity.ok(contractorService.updateContractor(contractorDto));
     }
 
     @DeleteMapping("/{contractId}")

@@ -1,6 +1,6 @@
-package ru.CSApp.restdemo.model;
+package ru.CSApp.restdemo.model.contract;
 
-enum ContractType{
+public enum ContractType{
     purchase, // закупка
     supply, // поставка
     works; // работы

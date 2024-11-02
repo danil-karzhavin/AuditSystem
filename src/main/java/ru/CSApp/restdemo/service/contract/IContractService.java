@@ -1,14 +1,14 @@
 package ru.CSApp.restdemo.service.contract;
 
-import ru.CSApp.restdemo.model.Contract;
-import ru.CSApp.restdemo.model.ContractStage;
+import ru.CSApp.restdemo.model.contract.Contract;
+import ru.CSApp.restdemo.model.contract.ContractDto;
 
 import java.util.List;
 import java.util.Map;
 
 public interface IContractService {
-    public Contract createContract(Contract contract);
-    public Contract updateContract(Contract contract);
+    public Contract createContract(ContractDto contract);
+    public Contract updateContract(ContractDto contract);
 
     public List<Contract> getAllContracts();
     public Contract getContractById(Integer id);
@@ -16,4 +16,6 @@ public interface IContractService {
 
     public void deleteContractById(Integer contractId);
     public void deleteAllContracts();
+
+    public void save(Contract contract);
 }
