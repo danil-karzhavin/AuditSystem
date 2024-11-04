@@ -58,6 +58,10 @@ public class ContractExcelWriter {
         for (Cell cell : headerRow) {
             cell.setCellStyle(headerStyle);
         }
+
+        // настройка авторазмера ячеек
+        for (int i = 0; i < 9; ++i)
+            sheet.autoSizeColumn(i);
     }
 
     private static void createDataRow(Sheet sheet, IContractable contractable, Integer numRow) {
@@ -77,6 +81,10 @@ public class ContractExcelWriter {
             dataRow.createCell(8).setCellValue("Yes");
         else
             dataRow.createCell(8).setCellValue("No");
+
+        // настройка авторазмера ячеек
+        for (int i = 0; i < 9; ++i)
+            sheet.autoSizeColumn(i);
     }
 
     private static void setDateValue(Cell cell, LocalDate date) {

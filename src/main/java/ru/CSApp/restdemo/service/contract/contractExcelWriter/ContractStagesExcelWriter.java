@@ -59,6 +59,10 @@ public class ContractStagesExcelWriter {
         for (Cell cell : headerRow) {
             cell.setCellStyle(headerStyle);
         }
+
+        // настройка авторазмера ячеек
+        for (int i = 0; i < 7; ++i)
+            sheet.autoSizeColumn(i);
     }
 
     private static void createDataRow(Sheet sheet, ContractStage contractStage, Integer numRow) {
@@ -72,6 +76,10 @@ public class ContractStagesExcelWriter {
         setDateValue(dataRow.createCell(5), contractStage.getActualEndDate());
 
         dataRow.createCell(6).setCellValue(contractStage.getMonetaryValue() != null ? contractStage.getMonetaryValue() : 0);
+
+        // настройка авторазмера ячеек
+        for (int i = 0; i < 7; ++i)
+            sheet.autoSizeColumn(i);
     }
 
     private static void setDateValue(Cell cell, LocalDate date) {
