@@ -47,6 +47,7 @@ public class SpendingMaterialService implements ISpendingMaterialService {
         spendingMaterial.setContractStageId(contractStageId);
 
         contractStage.getSpendingMaterials().add(spendingMaterial);
+        spendingMaterialRepository.save(spendingMaterial);
         contractStageService.save(contractStage);
         return spendingMaterial;
     }
