@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import ru.CSApp.restdemo.service.contract.contractStage.IContractStageService;
 import ru.CSApp.restdemo.service.contract.contractWithContractor.IContractWithContractorService;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -89,5 +90,10 @@ public class ContractService implements IContractService {
     @Override
     public void save(Contract contract) {
         contractRepository.save(contract);
+    }
+
+    @Override
+    public List<Contract> findByPlanStartDateAfterAndPlanEndDateBefore(LocalDate start, LocalDate end) {
+        return contractRepository.findByPlanStartDateAfterAndPlanEndDateBefore(start, end);
     }
 }

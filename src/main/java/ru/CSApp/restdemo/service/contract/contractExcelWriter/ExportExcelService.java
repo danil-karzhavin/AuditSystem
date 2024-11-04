@@ -34,16 +34,12 @@ public class ExportExcelService {
     ContractService contractService;
     ContractStageService contractStageService;
     ContractWithContractorService contractWithContractorService;
-    IContractRepository contractRepository;
-    IContractWithContractorRepository contractWithContractorRepository;
 
     public ExportExcelService(ContractService contractService, ContractWithContractorService contractWithContractorService,
-                              ContractStageService contractStageService, IContractRepository contractRepository, IContractWithContractorRepository contractWithContractorRepository) {
+                              ContractStageService contractStageService) {
         this.contractService = contractService;
         this.contractWithContractorService = contractWithContractorService;
         this.contractStageService = contractStageService;
-        this.contractRepository = contractRepository;
-        this.contractWithContractorRepository = contractWithContractorRepository;
     }
 
     public String determineContentType() {
@@ -91,8 +87,8 @@ public class ExportExcelService {
         LocalDate start = LocalDate.parse(dates.get("startDate").toString());
         LocalDate end = LocalDate.parse(dates.get("endDate").toString());
 
-        List<Contract> contracts = contractRepository.findByPlanStartDateAfterAndPlanEndDateBefore(start, end);
-        List<ContractWithContractor> contractWithContractors = contractWithContractorRepository.findByPlanStartDateAfterAndPlanEndDateBefore(start, end);
+        List<Contract> contracts = contractService.findByPlanStartDateAfterAndPlanEndDateBefore(start, end);
+        List<ContractWithContractor> contractWithContractors = contractWithContractorService.findByPlanStartDateAfterAndPlanEndDateBefore(start, end);
 
         ArrayList<IContractable> contractables = new ArrayList<>();
         contractables.addAll(contracts);

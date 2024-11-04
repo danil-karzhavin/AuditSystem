@@ -11,6 +11,7 @@ import ru.CSApp.restdemo.repository.contractor.IContractorRepository;
 import ru.CSApp.restdemo.service.contract.IContractService;
 import ru.CSApp.restdemo.service.contractor.IContractorService;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,5 +86,10 @@ public class ContractWithContractorService implements IContractWithContractorSer
         for (var obj : getContractsWithContractorsByContractId(contractId)){
             contractWithContractorRepository.deleteById(obj.getId());
         }
+    }
+
+    @Override
+    public List<ContractWithContractor> findByPlanStartDateAfterAndPlanEndDateBefore(LocalDate start, LocalDate end) {
+        return contractWithContractorRepository.findByPlanStartDateAfterAndPlanEndDateBefore(start, end);
     }
 }
