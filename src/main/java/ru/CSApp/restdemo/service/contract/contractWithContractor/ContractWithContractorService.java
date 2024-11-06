@@ -65,7 +65,7 @@ public class ContractWithContractorService implements IContractWithContractorSer
         Optional.ofNullable(contractWithContractorDto.getContractId()).ifPresent(contractWithContractor::setContractId);
 
 
-        Contract contract = contractService.getContractById(contractWithContractor.getContractId());
+        Contract contract = contractService.getContractById(contractWithContractorDto.getContractId());
         contract.getSubContracts().add(contractWithContractor);
         contractWithContractor.setContract(contract);
 
