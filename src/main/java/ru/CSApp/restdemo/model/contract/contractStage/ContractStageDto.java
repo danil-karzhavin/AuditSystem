@@ -13,6 +13,7 @@ public class ContractStageDto {
 
     Integer monetaryValue;
 
+    public ContractStageDto(){}
     public ContractStageDto(Integer id, String name, LocalDate planStartDate, LocalDate planEndDate, LocalDate actualStartDate, LocalDate actualEndDate, Integer monetaryValue) {
         this.id = id;
         this.name = name;
@@ -49,5 +50,33 @@ public class ContractStageDto {
 
     public Integer getMonetaryValue() {
         return monetaryValue;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPlanStartDate(LocalDate planStartDate) {
+        this.planStartDate = planStartDate;
+    }
+
+    public void setPlanEndDate(LocalDate planEndDate) {
+        this.planEndDate = planEndDate;
+    }
+
+    public void setActualStartDate(LocalDate actualStartDate) {
+        this.actualStartDate = actualStartDate;
+    }
+
+    public void setActualEndDate(LocalDate actualEndDate) {
+        this.actualEndDate = actualEndDate;
+    }
+
+    public void setMonetaryValue(Integer monetaryValue) {
+        this.monetaryValue = monetaryValue;
     }
 }

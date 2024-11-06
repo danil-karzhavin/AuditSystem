@@ -16,6 +16,7 @@ public class ContractWithContractorDto {
     LocalDate actualEndDate;
     Integer contractId;
 
+    public ContractWithContractorDto(){}
     public ContractWithContractorDto(Integer id, String name, ContractType type, Integer monetaryValue, LocalDate planStartDate, LocalDate planEndDate, LocalDate actualStartDate, LocalDate actualEndDate, Integer contractId) {
         this.id = id;
         this.name = name;
@@ -62,5 +63,41 @@ public class ContractWithContractorDto {
 
     public LocalDate getActualEndDate() {
         return actualEndDate;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setType(ContractType type) {
+        this.type = type;
+    }
+
+    public void setMonetaryValue(Integer monetaryValue) {
+        this.monetaryValue = monetaryValue;
+    }
+
+    public void setPlanStartDate(LocalDate planStartDate) {
+        this.planStartDate = planStartDate;
+    }
+
+    public void setPlanEndDate(LocalDate planEndDate) {
+        this.planEndDate = planEndDate;
+    }
+
+    public void setActualStartDate(LocalDate actualStartDate) {
+        this.actualStartDate = actualStartDate;
+    }
+
+    public void setActualEndDate(LocalDate actualEndDate) {
+        this.actualEndDate = actualEndDate;
+    }
+
+    public void setContractId(Integer contractId) {
+        this.contractId = contractId;
     }
 }
