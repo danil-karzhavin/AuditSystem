@@ -2,9 +2,11 @@ package ru.CSApp.restdemo.service.contract.contractStage.spendingSalary;
 
 import org.springframework.stereotype.Service;
 import ru.CSApp.restdemo.exception.contract.contractStage.spendingSalary.SpendingSalaryNotFoundException;
+import ru.CSApp.restdemo.exception.contractor.ContractorNotFoundException;
 import ru.CSApp.restdemo.model.contract.contractStage.ContractStage;
 import ru.CSApp.restdemo.model.contract.contractStage.spendingSalary.SpendingSalary;
 import ru.CSApp.restdemo.model.contract.contractStage.spendingSalary.SpendingSalaryDto;
+import ru.CSApp.restdemo.model.contractor.Contractor;
 import ru.CSApp.restdemo.repository.contract.stage.IContractStageRepository;
 import ru.CSApp.restdemo.repository.contract.stage.spendingSalary.ISpendingSalaryRepository;
 import ru.CSApp.restdemo.service.contract.contractStage.IContractStageService;
@@ -24,9 +26,12 @@ public class SpendingSalaryService implements ISpendingSalaryService{
 
     @Override
     public SpendingSalary getSpendingSalaryById(Integer spendingSalaryId) {
-        if (spendingSalaryRepository.findById(spendingSalaryId).isEmpty())
+        Optional<SpendingSalary> spendingSalaryOptional = spendingSalaryRepository.findById(spendingSalaryId);
+
+        if (spendingSalaryOptional.isEmpty()) {
             throw new SpendingSalaryNotFoundException("Not found spending salary with such Id");
-        return spendingSalaryRepository.findById(spendingSalaryId).get();
+        }
+        return spendingSalaryOptional.get();
     }
 
     @Override
@@ -67,7 +72,7 @@ public class SpendingSalaryService implements ISpendingSalaryService{
 
     @Override
     public void deleteSpendingSalaryById(Integer spendingSalaryId) {
-        if(spendingSalaryRepository.findById(spendingSalaryId).isEmpty())
+        if(!spendingSalaryRepository.existsById(spendingSalaryId))
             throw new SpendingSalaryNotFoundException("Not found spending salary with such Id");
         spendingSalaryRepository.deleteById(spendingSalaryId);
     }

@@ -1,10 +1,12 @@
 package ru.CSApp.restdemo.service.contract;
 
 import ru.CSApp.restdemo.exception.contract.ContractNotFoundException;
+import ru.CSApp.restdemo.exception.user.UserNotFoundException;
 import ru.CSApp.restdemo.model.contract.Contract;
 import ru.CSApp.restdemo.model.contract.ContractDto;
 import ru.CSApp.restdemo.model.contract.contractStage.ContractStage;
 import ru.CSApp.restdemo.model.contract.contractWithContractor.ContractWithContractor;
+import ru.CSApp.restdemo.model.user.User;
 import ru.CSApp.restdemo.repository.contract.IContractRepository;
 import org.springframework.stereotype.Service;
 import ru.CSApp.restdemo.service.contract.contractStage.IContractStageService;
@@ -62,10 +64,13 @@ public class ContractService implements IContractService {
     }
 
     @Override
-    public Contract getContractById(Integer id) {
-        if (contractRepository.findById(id).isEmpty())
+    public Contract getContractById(Integer contractId) {
+        Optional<Contract> contractOptional = contractRepository.findById(contractId);
+
+        if (contractOptional.isEmpty()) {
             throw new ContractNotFoundException("Not found contract with such Id");
-        return contractRepository.findById(id).get();
+        }
+        return contractOptional.get();
     }
 
     @Override
@@ -77,7 +82,7 @@ public class ContractService implements IContractService {
 
     @Override
     public void deleteContractById(Integer contractId) {
-        if (contractRepository.findById(contractId).isEmpty())
+        if (!contractRepository.existsById(contractId))
             throw new ContractNotFoundException("Not found contract with such Id");
         contractRepository.deleteById(contractId);
     }

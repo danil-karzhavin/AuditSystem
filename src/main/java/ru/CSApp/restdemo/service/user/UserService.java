@@ -1,6 +1,8 @@
 package ru.CSApp.restdemo.service.user;
 
+import ru.CSApp.restdemo.exception.contractor.ContractorNotFoundException;
 import ru.CSApp.restdemo.exception.user.UserNotFoundException;
+import ru.CSApp.restdemo.model.contractor.Contractor;
 import ru.CSApp.restdemo.model.user.User;
 import ru.CSApp.restdemo.model.user.UserDto;
 import ru.CSApp.restdemo.repository.user.UserRepository;
@@ -25,9 +27,15 @@ public class UserService implements IUserService {
 
     @Override
     public User getUserById(Integer userId) {
-        if(userRepository.findById(userId).isEmpty())
-            throw new UserNotFoundException("Not found user with such Id");
-        return userRepository.findById(userId).get();
+        Optional<User> userOptional = userRepository.findById(userId);
+
+        // Если объект не найден, выбрасываем исключение
+        if (userOptional.isEmpty()) {
+            throw new UserNotFoundException("Not found User with such Id");
+        }
+
+        // Получаем объект Contractor из Optional
+        return userOptional.get();
     }
 
     @Override
@@ -62,7 +70,7 @@ public class UserService implements IUserService {
 
     @Override
     public User updateUser(UserDto userDto) {
-        if(userRepository.findById(userDto.getId()).isEmpty())
+        if(!userRepository.existsById(userDto.getId()))
             throw new UserNotFoundException("Not found user with such Id");
         User user = userRepository.findById(userDto.getId()).get();
 

@@ -2,11 +2,13 @@ package ru.CSApp.restdemo.service.contract.contractStage;
 
 import org.springframework.stereotype.Service;
 import ru.CSApp.restdemo.exception.contract.contractStage.ContractStageNotFoundException;
+import ru.CSApp.restdemo.exception.contractor.ContractorNotFoundException;
 import ru.CSApp.restdemo.model.contract.Contract;
 import ru.CSApp.restdemo.model.contract.contractStage.ContractStage;
 import ru.CSApp.restdemo.model.contract.contractStage.ContractStageDto;
 import ru.CSApp.restdemo.model.contract.contractStage.spendingMaterial.SpendingMaterial;
 import ru.CSApp.restdemo.model.contract.contractStage.spendingSalary.SpendingSalary;
+import ru.CSApp.restdemo.model.contractor.Contractor;
 import ru.CSApp.restdemo.repository.contract.IContractRepository;
 import ru.CSApp.restdemo.repository.contract.stage.IContractStageRepository;
 import ru.CSApp.restdemo.service.contract.IContractService;
@@ -27,9 +29,12 @@ public class ContractStageService implements IContractStageService{
 
     @Override
     public ContractStage getContractStageById(Integer contractStageId){
-        if(contractStageRepository.findById(contractStageId).isEmpty())
+        Optional<ContractStage> contractStageOptional = contractStageRepository.findById(contractStageId);
+
+        if (contractStageOptional.isEmpty()) {
             throw new ContractStageNotFoundException("Not found contract stage with such Id");
-        return contractStageRepository.findById(contractStageId).get();
+        }
+        return contractStageOptional.get();
     }
 
     @Override
@@ -86,7 +91,7 @@ public class ContractStageService implements IContractStageService{
 
     @Override
     public void deleteContractStageById(Integer contractStageId) {
-        if(contractStageRepository.findById(contractStageId).isEmpty())
+        if(!contractStageRepository.existsById(contractStageId))
             throw new ContractStageNotFoundException("Not found contract stage with such Id");
         contractStageRepository.deleteById(contractStageId);
     }

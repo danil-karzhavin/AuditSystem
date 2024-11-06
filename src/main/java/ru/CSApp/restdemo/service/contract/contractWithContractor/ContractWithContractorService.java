@@ -2,6 +2,7 @@ package ru.CSApp.restdemo.service.contract.contractWithContractor;
 
 import org.springframework.stereotype.Service;
 import ru.CSApp.restdemo.exception.contract.contractWithContractor.ContractWithContractorNotFoundException;
+import ru.CSApp.restdemo.exception.contractor.ContractorNotFoundException;
 import ru.CSApp.restdemo.model.contract.Contract;
 import ru.CSApp.restdemo.model.contract.contractWithContractor.ContractWithContractor;
 import ru.CSApp.restdemo.model.contract.contractWithContractor.ContractWithContractorDto;
@@ -41,9 +42,13 @@ public class ContractWithContractorService implements IContractWithContractorSer
 
     @Override
     public ContractWithContractor getContractWithContractorById(Integer contractWitContractorId) {
-        if(contractWithContractorRepository.findById(contractWitContractorId).isEmpty())
+        Optional<ContractWithContractor> contractWithContractorOptional = contractWithContractorRepository.findById(contractWitContractorId);
+
+        if (contractWithContractorOptional.isEmpty()) {
             throw new ContractWithContractorNotFoundException("Not found sub contract with such Id");
-        return contractWithContractorRepository.findById(contractWitContractorId).get();
+        }
+
+        return contractWithContractorOptional.get();
     }
 
     @Override
@@ -76,7 +81,7 @@ public class ContractWithContractorService implements IContractWithContractorSer
 
     @Override
     public void deleteContractWithContractorById(Integer contractWithContractorId) {
-        if(contractWithContractorRepository.findById(contractWithContractorId).isEmpty())
+        if(!contractWithContractorRepository.existsById(contractWithContractorId))
             throw new ContractWithContractorNotFoundException("Not found sub contract with such Id");
         contractWithContractorRepository.deleteById(contractWithContractorId);
     }

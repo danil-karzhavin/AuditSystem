@@ -2,9 +2,11 @@ package ru.CSApp.restdemo.service.contract.contractStage.spendingMaterial;
 
 import org.springframework.stereotype.Service;
 import ru.CSApp.restdemo.exception.contract.contractStage.spendingMaterial.SpendingMaterialNotFoundException;
+import ru.CSApp.restdemo.exception.contract.contractStage.spendingSalary.SpendingSalaryNotFoundException;
 import ru.CSApp.restdemo.model.contract.contractStage.ContractStage;
 import ru.CSApp.restdemo.model.contract.contractStage.spendingMaterial.SpendingMaterial;
 import ru.CSApp.restdemo.model.contract.contractStage.spendingMaterial.SpendingMaterialDto;
+import ru.CSApp.restdemo.model.contract.contractStage.spendingSalary.SpendingSalary;
 import ru.CSApp.restdemo.repository.contract.stage.IContractStageRepository;
 import ru.CSApp.restdemo.repository.contract.stage.spendingMaterial.ISpendingMaterialRepository;
 import ru.CSApp.restdemo.service.contract.contractStage.IContractStageService;
@@ -24,9 +26,12 @@ public class SpendingMaterialService implements ISpendingMaterialService {
 
     @Override
     public SpendingMaterial getSpendingMaterialById(Integer spendingMaterialId) {
-        if (spendingMaterialRepository.findById(spendingMaterialId).isEmpty())
+        Optional<SpendingMaterial> spendingMaterialOptional = spendingMaterialRepository.findById(spendingMaterialId);
+
+        if (spendingMaterialOptional.isEmpty()) {
             throw new SpendingMaterialNotFoundException("Not found spending material with such Id");
-        return spendingMaterialRepository.findById(spendingMaterialId).get();
+        }
+        return spendingMaterialOptional.get();
     }
 
     @Override
@@ -65,7 +70,7 @@ public class SpendingMaterialService implements ISpendingMaterialService {
 
     @Override
     public void deleteSpendingMaterialById(Integer spendingMaterialId) {
-        if(spendingMaterialRepository.findById(spendingMaterialId).isEmpty())
+        if(!spendingMaterialRepository.existsById(spendingMaterialId))
             throw new SpendingMaterialNotFoundException("Not found spending material with such Id");
         spendingMaterialRepository.deleteById(spendingMaterialId);
     }
