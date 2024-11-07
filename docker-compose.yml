@@ -21,12 +21,16 @@ services:
     restart: always
     ports:
       - "8080:8080"  # маппинг портов
+    volumes:
+      - excel_data:/var/lib/excel_data
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/csapp?allowPublicKeyRetrieval=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
+      EXCEL_FILE_PATH: /var/lib/excel_data
     depends_on:
       - mysql  # Обеспечивает запуск MySQL перед приложением
 
 volumes:
   mysql_data:
+  excel_data:

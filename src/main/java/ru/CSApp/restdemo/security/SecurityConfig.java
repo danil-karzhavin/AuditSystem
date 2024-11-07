@@ -13,7 +13,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private static final String authenticatePath = "/users/authenticate/**";
+    private static final String authenticatePath = "/users/authenticate/";
+    private static final String createUserPath = "/users/createUser/";
     JwtRequestFilter jwtRequestFilter;
 
     public SecurityConfig(JwtRequestFilter jwtRequestFilter) {
@@ -32,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers(authenticatePath).permitAll() // Разрешает доступ ко всем запросам, начинающимся с
+                .antMatchers(createUserPath,authenticatePath).permitAll() // Разрешает доступ ко всем запросам, начинающимся с
                 // `/auth/`, без аутентификации. Это обычно означает, что конечные точки для регистрации и входа в
                 // систему не требуют аутентификации
                 .anyRequest().authenticated() // Все остальные запросы требуют аутентификации. Это означает, что после
