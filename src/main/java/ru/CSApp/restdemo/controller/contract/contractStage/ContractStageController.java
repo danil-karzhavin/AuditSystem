@@ -1,5 +1,7 @@
 package ru.CSApp.restdemo.controller.contract.contractStage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.CSApp.restdemo.exception.contract.ContractNotFoundException;
@@ -16,6 +18,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/contractStages")
 public class ContractStageController {
+    private static final Logger logger = LoggerFactory.getLogger(ContractStageController.class);
     IContractService contractService;
     IContractStageService contractStageService;
     ExportExcelService exportExcelService;
@@ -74,10 +77,9 @@ public class ContractStageController {
             response.getOutputStream().close();
 
         } catch (ContractNotFoundException e){
-            System.out.println(e);
-            //return new ResponseEntity<>("Resource not found", HttpStatus.NOT_FOUND); // 404
+            logger.error("Контракт не найден: {}", e.getMessage(), e);
         } catch (IOException e) {
-            System.out.println(e);
+            logger.error("Ошибка в течении записи ответа: {}", e.getMessage(), e);
         }
     }
 }
