@@ -3,8 +3,8 @@ spring:
   # данныйе для подключения к базе
   datasource:
     url: jdbc:mysql://localhost:3306/csapp?allowPublicKeyRetrieval=true&useSSL=false
-    username: root
-    password: root
+    username: develop
+    password: develop
 
   mvc:
     # Настройки, связанные с маршрутизацией запросов в Spring MVC

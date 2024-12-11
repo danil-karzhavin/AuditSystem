@@ -26,7 +26,13 @@ public class ContractWithContractor implements IContractable {
     LocalDate actualStartDate;
     LocalDate actualEndDate;
 
-    @OneToOne(mappedBy = "contractWithContractor")
+
+    /*
+    ContractWithContractor и Contractor имеют связь One to One, где ContractWithContractor - Главный,
+    Contractor - дочерний.
+    ContractWithContractor имеет только одну ссылку-переменную на Contractor, а Contractor должен иметь две
+    */
+    @OneToOne(mappedBy = "contractWithContractor") // переменная дочернего объекта указывающая на этот объект
     @JsonManagedReference
     Contractor contractor;
 

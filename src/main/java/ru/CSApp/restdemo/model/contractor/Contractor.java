@@ -17,9 +17,22 @@ public class Contractor {
 
     String inn;
 
+    /*
+    ContractWithContractor и Contractor имеют связь One to One, где ContractWithContractor - Главный,
+    Contractor - дочерний.
+    Contractor имеет две ссылки-переменные на объект ContractWithContractor:
+    - идентификатор contractWithContractorId объекта главной сущности
+    - ссылка-переменная на объект главной сущности contractWithContractor
+    */
     @Column(name = "contractWithContractorId", insertable = false, updatable = false)
     Integer contractWithContractorId;
+
     @OneToOne(cascade = CascadeType.ALL) // Указывает на отношение "один к одному" с каскадным типом `ALL`. Это означает, что все операции каскада (например, persist, remove) также будут применены к связанному профилю.
+    /*
+    Это аналог left join в sql
+    Имя поля в дочернем объекте, которое ссылается на идентификатор главного объекта.
+    Поле-идентификатор главного объекта.
+    */
     @JoinColumn(name = "contractWithContractorId", referencedColumnName = "id")
     @JsonBackReference
     ContractWithContractor contractWithContractor;
